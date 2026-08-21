@@ -1,0 +1,351 @@
+/* ===== Maharaja Oils — Design Tokens =====
+   Palette rebuilt to match the "Karaikudi Traditional Oils" reference:
+   deep Chettinad maroon for structure (header bars, buttons, footer),
+   warm ivory/cream for page backgrounds, and antique gold for accents,
+   eyebrows and dividers. Display face Rozha One nods to South Indian
+   temple signage lettering; Work Sans carries the body copy cleanly. */
+
+:root {
+  --ivory: #FBF3E4;
+  --ivory-deep: #F2E3C6;
+  --wood: #5C0E18;          /* primary maroon — headings, nav, primary buttons */
+  --wood-soft: #6E5342;     /* warm brown-gray — body copy */
+  --maroon-dark: #3B090F;   /* darkest maroon — top bar, footer, process band */
+  --maroon-mid: #7A1522;    /* mid maroon — hover states, borders */
+  --amber: #C9A227;         /* antique gold — eyebrows, icons */
+  --amber-deep: #A6821C;
+  --saffron: #DEB94F;       /* light gold — hero highlight, outline buttons */
+  --clay: #B84B2C;
+  --leaf: #56633A;
+  --line: #E8D8BA;
+  --white: #FFFFFF;
+
+  --font-display: 'Rozha One', serif;
+  --font-body: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow-soft: 0 6px 24px rgba(59, 9, 15, 0.10);
+  --shadow-lift: 0 12px 32px rgba(59, 9, 15, 0.18);
+  --container: 1180px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--ivory);
+  color: var(--wood-soft);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--wood);
+  margin: 0 0 0.4em;
+  line-height: 1.15;
+}
+
+h1 { font-size: clamp(2.1rem, 4vw, 3.2rem); }
+h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); }
+h3 { font-size: 1.35rem; }
+
+p { margin: 0 0 1em; color: var(--wood-soft); }
+
+a { color: inherit; text-decoration: none; }
+
+button, input, select, textarea { font-family: inherit; font-size: 1rem; }
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-head { text-align: center; margin-bottom: 8px; }
+.section-head .eyebrow { justify-content: center; }
+.section-head h2 { position: relative; display: inline-block; }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--amber-deep);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Signature divider: oil-drop trail used between major sections */
+.drip-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 44px 0;
+  color: var(--amber);
+}
+.drip-divider::before,
+.drip-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--line);
+}
+.drip-divider svg { flex-shrink: 0; }
+
+/* Ornamental flourish used flanking section titles, temple-signage style */
+.flourish {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--amber);
+  margin: 6px 0 18px;
+}
+.flourish::before,
+.flourish::after {
+  content: "";
+  width: 46px;
+  height: 1px;
+  background: var(--amber);
+  opacity: 0.6;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border-radius: 4px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--shadow-soft); }
+.btn-primary {
+  background: var(--wood);
+  color: var(--ivory);
+}
+.btn-primary:hover { background: var(--maroon-mid); }
+.btn-outline {
+  background: transparent;
+  color: var(--wood);
+  border: 1.5px solid var(--wood);
+}
+.btn-outline:hover { background: var(--wood); color: var(--ivory); }
+.btn-gold-outline {
+  background: transparent;
+  color: var(--saffron);
+  border: 1.5px solid var(--saffron);
+}
+.btn-gold-outline:hover { background: var(--saffron); color: var(--maroon-dark); }
+.btn-saffron {
+  background: var(--wood);
+  color: var(--ivory);
+}
+.btn-saffron:hover { background: var(--maroon-mid); box-shadow: var(--shadow-lift); }
+.btn-block { width: 100%; }
+.btn-sm { padding: 9px 18px; font-size: 0.76rem; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-icon {
+  background: var(--white);
+  border: 1.5px solid var(--line);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.btn-icon:hover { border-color: var(--amber); }
+.btn-icon.active { background: var(--clay); border-color: var(--clay); color: var(--white); }
+
+/* Cards */
+.card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--line);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+}
+
+/* Badges/tags */
+.badge {
+  display: inline-block;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.badge-new { background: var(--leaf); color: var(--white); }
+.badge-sale { background: var(--clay); color: var(--white); }
+.badge-low { background: #F6E3D8; color: var(--clay); }
+
+/* Forms */
+.field { margin-bottom: 18px; text-align: left; }
+.field label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--wood-soft);
+  margin-bottom: 6px;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--wood);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus { border-color: var(--amber); }
+.field-error { color: var(--clay); font-size: 0.8rem; margin-top: 5px; }
+.form-error-banner {
+  background: #FBE7DF;
+  color: var(--clay);
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  margin-bottom: 18px;
+  font-size: 0.9rem;
+}
+.form-success-banner {
+  background: #E7ECDD;
+  color: var(--leaf);
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  margin-bottom: 18px;
+  font-size: 0.9rem;
+}
+
+/* Accessibility: visible focus ring everywhere */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--ivory-deep) 25%, var(--line) 37%, var(--ivory-deep) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: var(--radius);
+}
+@keyframes shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 70px 20px;
+  color: var(--wood-soft);
+}
+.empty-state h3 { margin-bottom: 8px; }
+
+/* ===== Subtle refreshed-design animations ===== */
+
+/* Gentle entrance for page content — plays once when a route's top-level
+   .container mounts. Purely cosmetic; no effect on layout or behavior. */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.container {
+  animation: fadeInUp 0.45s ease both;
+}
+
+/* Search bar: soft glow on focus instead of an abrupt border-color snap */
+.search-form-desktop input:focus,
+.search-form-desktop input:focus-visible {
+  border-color: var(--amber) !important;
+  box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.15);
+}
+.search-form-desktop button[type="submit"]:hover {
+  transform: scale(1.12);
+}
+
+/* Logo: a light lift + scale on hover, echoing the button hover style */
+.navbar-logo-link:hover {
+  transform: translateY(-1px);
+}
+.navbar-logo-link:hover .navbar-logo-img {
+  transform: scale(1.04);
+}
+
+/* Nav dropdowns (Categories / account menu) ease in instead of popping */
+.dropdown-menu {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  pointer-events: none;
+}
+[style*="position: relative"]:hover > .dropdown-menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Product / info cards fade in slightly staggered when a grid mounts */
+.card {
+  animation: fadeInUp 0.4s ease both;
+}
+
+/* ===== Scroll-triggered reveal animations =====
+   Driven by <ScrollReveal /> (IntersectionObserver), which adds
+   "js-reveal-ready" to <html> once mounted and "in-view" to individual
+   elements the first time they scroll into the viewport. Gated behind
+   js-reveal-ready so content stays fully visible if JS is slow/unavailable. */
+html.js-reveal-ready .section-head:not(.in-view),
+html.js-reveal-ready .drip-divider:not(.in-view),
+html.js-reveal-ready [data-reveal]:not(.in-view) {
+  opacity: 0;
+  transform: translateY(26px);
+}
+.section-head.in-view,
+.drip-divider.in-view,
+[data-reveal].in-view {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Optional stagger helpers for groups of elements revealing together */
+[data-reveal="1"].in-view { transition-delay: 0.05s; }
+[data-reveal="2"].in-view { transition-delay: 0.12s; }
+[data-reveal="3"].in-view { transition-delay: 0.19s; }
+[data-reveal="4"].in-view { transition-delay: 0.26s; }
+
+/* Sticky header gains a soft shadow once the page scrolls, giving the nav
+   bar a bit more depth without altering its colors. */
+.navbar-scrolled { box-shadow: 0 4px 18px rgba(59, 9, 15, 0.10); }
