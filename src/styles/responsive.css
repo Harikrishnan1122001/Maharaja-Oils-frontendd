@@ -32,3 +32,418 @@
 @media (max-width: 520px) {
   .footer-grid { grid-template-columns: 1fr !important; }
 }
+
+/* =====================================================================
+   MOBILE HEADER — logo / hamburger menu / cart aligned in a single,
+   evenly spaced row instead of wrapping onto multiple lines.
+   ===================================================================== */
+@media (max-width: 860px) {
+  .navbar-bar {
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 12px 16px !important;
+  }
+
+  .navbar-logo-link { gap: 9px !important; margin-left: 0 !important; flex-shrink: 0; min-width: 0; }
+  .navbar-logo-img { height: 34px !important; }
+  .navbar-brand-text { min-width: 0; overflow: hidden; }
+  .navbar-brand-name { font-size: 1.02rem !important; white-space: nowrap; }
+  .navbar-brand-tagline { font-size: 0.56rem !important; white-space: nowrap; }
+
+  .navbar-actions {
+    gap: 12px !important;
+    margin-left: 0 !important;
+    flex-shrink: 0;
+  }
+
+  /* Wishlist + full account dropdown/login button move into the
+     hamburger menu on mobile so the header stays uncluttered — the
+     equivalent links are rendered inside the slide-down mobile menu. */
+  .navbar-wishlist,
+  .navbar-account-desktop {
+    display: none !important;
+  }
+
+  .navbar-icon.navbar-cart { font-size: 1.2rem !important; }
+
+  .hamburger-mobile {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0 !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .navbar-brand-tagline { display: none !important; }
+  .navbar-logo-img { height: 30px !important; }
+}
+
+.mobileMenu-anchor {} /* keep-alive selector for future targeting */
+
+@media (max-width: 860px) {
+  .utilityInner-mobile,
+  .utilityBar { font-size: 0.68rem !important; }
+}
+
+/* =====================================================================
+   HERO BANNER — on mobile the banner is shown at its natural aspect
+   ratio (object-fit: contain, normal document flow) instead of being
+   cropped by a fixed-height, object-fit: cover box.
+   ===================================================================== */
+@media (max-width: 780px) {
+  .hero-banner {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .hero-banner-img {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    background: var(--maroon-dark);
+  }
+
+  .hero-banner-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+  }
+}
+
+/* =====================================================================
+   CATEGORY SLIDER — swipeable horizontal carousel tuned for touch:
+   smaller cards, no visible scrollbar, arrow buttons replaced by a
+   subtle swipe-hint indicator (arrows still work with mouse/trackpad
+   but are hidden on touch-sized viewports).
+   ===================================================================== */
+.category-carousel-track {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.category-carousel-track::-webkit-scrollbar { display: none; }
+
+@media (max-width: 780px) {
+  .category-carousel-wrap { margin-top: 18px; }
+
+  .category-carousel-track {
+    gap: 14px !important;
+    padding: 4px 4px 6px !important;
+    scroll-padding-left: 20px;
+  }
+
+  .category-carousel-card {
+    width: 158px !important;
+    padding: 18px 12px !important;
+    scroll-snap-align: center !important;
+  }
+
+  .category-carousel-img-wrap { max-width: 110px !important; }
+
+  .category-carousel-nav { display: none !important; }
+
+  .category-carousel-hint {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .category-carousel-hint span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--line);
+  }
+  .category-carousel-hint span:first-child { background: var(--amber-deep); }
+}
+
+.process-carousel-hint {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+.process-carousel-hint span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+}
+.process-carousel-hint span:first-child { background: var(--saffron); }
+
+@media (min-width: 781px) {
+  .category-carousel-hint { display: none; }
+}
+
+/* =====================================================================
+   FOOTER — collapsible accordion columns on mobile so the footer isn't
+   one long vertical wall of links. Desktop keeps the full grid, always
+   expanded, with the toggle affordance hidden.
+   ===================================================================== */
+.footer-col-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  text-align: left;
+  cursor: default;
+}
+.footer-col-toggle h4 { margin-bottom: 14px; }
+.footer-toggle-icon { display: none; }
+.footer-col-body { display: flex; flex-direction: column; }
+
+@media (max-width: 860px) {
+  .footer-grid { row-gap: 6px !important; }
+
+  .footer-col-toggle {
+    cursor: pointer;
+    padding: 14px 0 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .footer-col-toggle h4 { margin-bottom: 0 !important; }
+
+  .footer-toggle-icon {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--saffron);
+    color: var(--saffron);
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+
+  .footer-col-body {
+    display: none;
+    padding-top: 14px;
+  }
+  .footer-col-body.is-open { display: flex; }
+}
+
+/* =====================================================================
+   TRADITIONAL PROCESS — swipeable horizontal slider on mobile instead
+   of a long stacked vertical list.
+   ===================================================================== */
+@media (max-width: 780px) {
+  .process-grid {
+    flex-wrap: nowrap !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 22px !important;
+    padding: 6px 6px 12px !important;
+    margin: 20px -6px 0 !important;
+  }
+  .process-grid::-webkit-scrollbar { display: none; }
+
+  .process-item-wrap {
+    flex-direction: row !important;
+    flex: 0 0 auto !important;
+    scroll-snap-align: center;
+  }
+  .process-item-wrap span { display: none !important; }
+
+  .process-item { width: 132px !important; }
+}
+
+@media (min-width: 781px) {
+  .process-carousel-hint { display: none; }
+}
+
+/* =====================================================================
+   ADMIN PANEL — mobile sidebar drawer, top bar, and stacked layouts for
+   the Categories / Products / Banners / Orders / Users pages.
+   ===================================================================== */
+
+/* Mobile top bar (hamburger + section label) — hidden on desktop */
+.admin-topbar-mobile { display: none; }
+
+.admin-backdrop {
+  display: none;
+}
+
+.admin-drawer-close { display: none; }
+
+@media (max-width: 900px) {
+  .admin-shell { flex-direction: column; }
+
+  .admin-topbar-mobile {
+    display: flex !important;
+    align-items: center;
+    gap: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--wood);
+    color: var(--ivory);
+    padding: 14px 16px;
+  }
+
+  .admin-hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .admin-hamburger-btn span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--ivory);
+    border-radius: 2px;
+  }
+
+  .admin-topbar-label {
+    font-weight: 700;
+    font-size: 1rem;
+    font-family: var(--font-display);
+  }
+
+  /* Sidebar becomes an off-canvas drawer */
+  .admin-sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    height: 100vh !important;
+    width: 250px !important;
+    max-width: 82vw;
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    z-index: 60;
+    box-shadow: 2px 0 24px rgba(0, 0, 0, 0.25);
+  }
+  .admin-sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .admin-sidebar-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .admin-drawer-close {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: 1px solid var(--wood-soft);
+    border-radius: 8px;
+    color: var(--ivory);
+    cursor: pointer;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .admin-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+    transition: background 0.22s ease;
+    z-index: 50;
+  }
+  .admin-backdrop.is-open {
+    background: rgba(0, 0, 0, 0.45);
+    pointer-events: auto;
+  }
+
+  /* Content takes the full width; the sidebar no longer sits beside it */
+  .admin-content {
+    max-width: 100% !important;
+    padding: 20px 16px !important;
+  }
+}
+
+/* Split form/list layouts (Categories, Products, Banners, Order & User
+   detail pages) collapse to a single column and the form stops being
+   sticky so it doesn't eat the screen on mobile. */
+@media (max-width: 860px) {
+  .admin-split-layout {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  /* Grid items default to min-width: auto, which refuses to shrink below
+     their content's natural width — this is what was forcing the whole
+     page into horizontal scroll instead of actually stacking. */
+  .admin-split-layout > * {
+    min-width: 0 !important;
+  }
+  .admin-form-card {
+    position: static !important;
+    max-height: none !important;
+    padding: 20px !important;
+  }
+  .admin-list-wrap {
+    min-width: 0 !important;
+  }
+}
+
+/* Belt-and-braces: nothing inside the admin area should ever be able to
+   push the page itself into horizontal scroll on mobile. Tables that need
+   horizontal scrolling already get it from their own overflow-x:auto
+   wrapper, so this doesn't affect them. */
+@media (max-width: 900px) {
+  .admin-content, .admin-shell {
+    overflow-x: hidden;
+  }
+}
+
+/* Product variant row: 5-column fixed grid → 2 columns on mobile with
+   the remove button spanning full width beneath its row. The bare
+   <input> elements here (no .field wrapper) default to browser
+   intrinsic width, which was forcing the row wider than the screen. */
+.admin-variant-row input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+@media (max-width: 520px) {
+  .admin-variant-row {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .admin-variant-remove {
+    grid-column: 1 / -1 !important;
+    justify-self: end;
+    padding: 4px 2px !important;
+  }
+  .admin-variant-remove-label { display: inline; }
+}
+@media (min-width: 521px) {
+  .admin-variant-remove-label { display: none; }
+}
+
+/* Search/filter rows and search inputs go full width on mobile */
+@media (max-width: 600px) {
+  .admin-filters-row { flex-direction: column !important; align-items: stretch !important; }
+  .admin-search-input { min-width: 0 !important; width: 100%; }
+  .admin-status-select { width: 100%; }
+  .admin-search-input-wide { max-width: 100% !important; }
+}

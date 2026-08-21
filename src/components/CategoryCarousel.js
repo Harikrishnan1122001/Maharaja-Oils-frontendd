@@ -41,13 +41,14 @@ const CategoryCarousel = ({ categories = [], loading = false }) => {
   const items = loading ? Array.from({ length: 5 }) : categories;
 
   return (
-    <div style={styles.wrap}>
+    <div style={styles.wrap} className="category-carousel-wrap">
       {!loading && canScrollPrev && (
         <button
           type="button"
           aria-label="Previous categories"
           onClick={() => scrollByCard(-1)}
           style={{ ...styles.navBtn, left: -6 }}
+          className="category-carousel-nav category-carousel-nav-prev"
         >
           ‹
         </button>
@@ -60,11 +61,11 @@ const CategoryCarousel = ({ categories = [], loading = false }) => {
               key={c._id}
               to={`/category/${c.slug}`}
               data-cat-card
-              className="card"
+              className="card category-carousel-card"
               style={styles.catCard}
               aria-label={`Shop ${c.name}`}
             >
-              <div style={styles.catImgWrap}>
+              <div style={styles.catImgWrap} className="category-carousel-img-wrap">
                 {c.image?.url && <img src={c.image.url} alt={c.name} style={styles.catImg} />}
               </div>
               <span style={styles.catName}>{c.name}</span>
@@ -72,7 +73,7 @@ const CategoryCarousel = ({ categories = [], loading = false }) => {
               <span className="btn btn-primary btn-sm" style={{ pointerEvents: "none" }}>Shop Now</span>
             </Link>
           ) : (
-            <div key={i} data-cat-card className="skeleton" style={{ ...styles.catCard, height: 300 }} />
+            <div key={i} data-cat-card className="skeleton category-carousel-card" style={{ ...styles.catCard, height: 300 }} />
           )
         )}
       </div>
@@ -83,9 +84,18 @@ const CategoryCarousel = ({ categories = [], loading = false }) => {
           aria-label="Next categories"
           onClick={() => scrollByCard(1)}
           style={{ ...styles.navBtn, right: -6 }}
+          className="category-carousel-nav category-carousel-nav-next"
         >
           ›
         </button>
+      )}
+
+      {!loading && items.length > 1 && (
+        <div className="category-carousel-hint" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
       )}
     </div>
   );
