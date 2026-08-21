@@ -107,8 +107,6 @@ const AdminLayout = ({ children }) => {
   return (
     <div style={styles.shell} className="admin-shell">
       <ScrollReveal />
-
-      {/* Mobile-only top bar: hamburger to open the sidebar as a drawer */}
       <div className="admin-topbar">
         <button
           type="button"
@@ -118,7 +116,7 @@ const AdminLayout = ({ children }) => {
         >
           ☰
         </button>
-        <span className="admin-topbar-title">Maharaja Admin</span>
+        
       </div>
 
       {sidebarOpen && (
