@@ -116,11 +116,11 @@ const AdminDashboard = () => {
 
   const cards = stats
     ? [
-        { label: "Total Users", value: stats.totalUsers, icon: "👤" },
-        { label: "Paid Orders", value: stats.totalOrders, icon: "📦" },
-        { label: "Total Products", value: stats.totalProducts, icon: "◫" },
-        { label: "Total Revenue", value: `₹${Number(stats.totalRevenue).toLocaleString("en-IN")}`, icon: "₹" },
-        { label: "Low Stock Items", value: stats.lowStockCount, icon: "⚠", warn: stats.lowStockCount > 0 },
+        { label: "Total Users", value: stats.totalUsers, icon: "👤", accent: "#5C0E18", accentBg: "#F1E1DE" },
+        { label: "Paid Orders", value: stats.totalOrders, icon: "📦", accent: "#A6821C", accentBg: "#F6E9C9" },
+        { label: "Total Products", value: stats.totalProducts, icon: "◫", accent: "#56633A", accentBg: "#E7ECDD" },
+        { label: "Total Revenue", value: `₹${Number(stats.totalRevenue).toLocaleString("en-IN")}`, icon: "₹", accent: "#7A1522", accentBg: "#F1DCDD" },
+        { label: "Low Stock Items", value: stats.lowStockCount, icon: "⚠", warn: stats.lowStockCount > 0, accent: "#B84B2C", accentBg: "#FBE7DF" },
       ]
     : [];
 
@@ -141,10 +141,14 @@ const AdminDashboard = () => {
       {error && <div className="form-error-banner">{error}</div>}
 
       {stats && (
-        <div style={styles.grid}>
+        <div style={styles.grid} className="admin-stat-grid">
           {cards.map((c) => (
-            <div key={c.label} className="card" style={{ ...styles.statCard, ...(c.warn ? styles.statCardWarn : {}) }}>
-              <div style={styles.statIcon}>{c.icon}</div>
+            <div
+              key={c.label}
+              className={`card admin-stat-card${c.warn ? " is-warn" : ""}`}
+              style={{ ...styles.statCard, "--accent": c.accent, "--accent-bg": c.accentBg }}
+            >
+              <div className="admin-stat-icon-badge">{c.icon}</div>
               <div>
                 <div style={styles.statValue}>{c.value}</div>
                 <div style={styles.statLabel}>{c.label}</div>
@@ -156,24 +160,35 @@ const AdminDashboard = () => {
 
       <div className="drip-divider" />
 
+      <p className="eyebrow" style={{ marginBottom: 14 }}>Quick Actions</p>
       <div style={styles.quickGrid}>
-        <Link to="/admin/categories" className="card" style={styles.quickCard}>
+        <Link to="/admin/categories" className="card admin-quick-card" style={styles.quickCard}>
+          <span className="admin-quick-arrow" aria-hidden="true">→</span>
+          <span style={styles.quickIcon}>▤</span>
           <h3>Manage Categories</h3>
           <p>Create, edit, and organize product categories shown on the storefront.</p>
         </Link>
-        <Link to="/admin/products" className="card" style={styles.quickCard}>
+        <Link to="/admin/products" className="card admin-quick-card" style={styles.quickCard}>
+          <span className="admin-quick-arrow" aria-hidden="true">→</span>
+          <span style={styles.quickIcon}>◫</span>
           <h3>Manage Products</h3>
           <p>Add new oils and podi products, set variants, pricing, and stock.</p>
         </Link>
-        <Link to="/admin/orders" className="card" style={styles.quickCard}>
+        <Link to="/admin/orders" className="card admin-quick-card" style={styles.quickCard}>
+          <span className="admin-quick-arrow" aria-hidden="true">→</span>
+          <span style={styles.quickIcon}>📦</span>
           <h3>Manage Orders</h3>
           <p>View order details, update status, and download the orders Excel sheet.</p>
         </Link>
-        <Link to="/admin/users" className="card" style={styles.quickCard}>
+        <Link to="/admin/users" className="card admin-quick-card" style={styles.quickCard}>
+          <span className="admin-quick-arrow" aria-hidden="true">→</span>
+          <span style={styles.quickIcon}>👤</span>
           <h3>Manage Users</h3>
           <p>View customer details, order history, and block/unblock accounts.</p>
         </Link>
-        <Link to="/admin/banners" className="card" style={styles.quickCard}>
+        <Link to="/admin/banners" className="card admin-quick-card" style={styles.quickCard}>
+          <span className="admin-quick-arrow" aria-hidden="true">→</span>
+          <span style={styles.quickIcon}>🖼</span>
           <h3>Manage Banners</h3>
           <p>Add and remove homepage and sitewide promotional banners.</p>
         </Link>
@@ -185,12 +200,11 @@ const AdminDashboard = () => {
 const styles = {
   grid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 16 },
   statCard: { padding: 22, display: "flex", alignItems: "center", gap: 14 },
-  statCardWarn: { border: "1.5px solid var(--clay)" },
-  statIcon: { fontSize: "1.6rem" },
   statValue: { fontSize: "1.5rem", fontWeight: 700, fontFamily: "var(--font-display)" },
   statLabel: { fontSize: "0.8rem", color: "var(--wood-soft)" },
   quickGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 18 },
-  quickCard: { padding: 24, transition: "box-shadow 0.15s ease" },
+  quickCard: { padding: "24px 24px 22px", transition: "box-shadow 0.15s ease" },
+  quickIcon: { fontSize: "1.4rem", color: "var(--amber-deep)", marginBottom: 4 },
 };
 
 export default AdminDashboard;

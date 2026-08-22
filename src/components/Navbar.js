@@ -410,6 +410,21 @@ const Navbar = () => {
             <span>Traditionally Pressed</span>
           </div>
         </div>
+        {/* Mobile-only: the trio of trust tags above is hidden at narrow
+            widths (no room to fit them). Rather than dropping them
+            entirely, they reflow into a slow, continuous sliding strip —
+            same information, no vertical stacking, no layout jump.
+            Desktop is untouched: this element is display:none above 860px. */}
+        <div className="utility-marquee-mobile" aria-hidden="true">
+          <div className="utility-marquee-track">
+            <span>100% Natural</span><span className="marquee-dot" />
+            <span>No Preservatives</span><span className="marquee-dot" />
+            <span>Traditionally Pressed</span><span className="marquee-dot" />
+            <span>100% Natural</span><span className="marquee-dot" />
+            <span>No Preservatives</span><span className="marquee-dot" />
+            <span>Traditionally Pressed</span><span className="marquee-dot" />
+          </div>
+        </div>
       </div>
 
       {/* Main nav */}

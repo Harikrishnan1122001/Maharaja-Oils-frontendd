@@ -349,3 +349,104 @@ html.js-reveal-ready [data-reveal]:not(.in-view) {
 /* Sticky header gains a soft shadow once the page scrolls, giving the nav
    bar a bit more depth without altering its colors. */
 .navbar-scrolled { box-shadow: 0 4px 18px rgba(59, 9, 15, 0.10); }
+
+/* =====================================================================
+   ADMIN PANEL — visual redesign
+   Purely presentational: icon badges, hover/active states, avatar chip,
+   and card polish for the sidebar + dashboard. No routes, data, or
+   handlers are touched — same links, same logout, same stats.
+   ===================================================================== */
+
+/* Nav items: icon sits in a soft rounded badge, item lifts slightly and
+   brightens on hover, active item gets a filled gold badge. */
+.admin-nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  font-size: 1rem;
+  background: rgba(251, 243, 228, 0.08);
+  flex-shrink: 0;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+.admin-nav-item:hover {
+  background: rgba(251, 243, 228, 0.06);
+  color: var(--white) !important;
+  transform: translateX(2px);
+}
+.admin-nav-item:hover .admin-nav-icon {
+  background: rgba(222, 185, 79, 0.22);
+}
+.admin-nav-item[aria-current="page"] .admin-nav-icon,
+.admin-nav-item.active .admin-nav-icon {
+  background: var(--saffron);
+  color: var(--maroon-dark);
+}
+
+.admin-logout-hover:hover,
+.admin-sidebar-footer button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+}
+
+/* User chip in the sidebar footer */
+.admin-user-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.admin-user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--saffron);
+  color: var(--maroon-dark);
+  font-weight: 700;
+  font-size: 0.78rem;
+  flex-shrink: 0;
+}
+
+/* Dashboard stat cards: colored left accent + icon badge, staggered
+   fade-in reusing the existing .card animation. */
+.admin-stat-card {
+  position: relative;
+  overflow: hidden;
+  border-left: 3px solid var(--accent, var(--amber));
+}
+.admin-stat-icon-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  background: var(--accent-bg, #F6E9C9);
+  color: var(--accent, var(--amber-deep));
+}
+.admin-stat-card.is-warn { border-left-color: var(--clay); }
+.admin-stat-card.is-warn .admin-stat-icon-badge { background: #FBE7DF; color: var(--clay); }
+
+/* Quick-action cards on the dashboard get a small arrow affordance that
+   nudges right on hover, reinforcing that they're clickable links. */
+.admin-quick-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.admin-quick-card .admin-quick-arrow {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  font-size: 1.1rem;
+  color: var(--amber-deep);
+  transition: transform 0.2s ease;
+}
+.admin-quick-card:hover .admin-quick-arrow { transform: translateX(4px); }

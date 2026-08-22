@@ -418,15 +418,30 @@ const Home = () => {
             <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
               
             </div>
+
+            {/* Mobile-only banner headline. Desktop shows the banner image
+                alone (unchanged); on mobile the same banner's title/subtitle
+                (set by admin under Banners) slide gently in from the side
+                each time the carousel advances, instead of being absent or
+                appearing as stacked full-width text blocks. `key={bannerIdx}`
+                remounts this node on every rotation so the slide-in replays. */}
+            <div className="hero-banner-mobile-copy" key={bannerIdx}>
+              <p className="hero-banner-mobile-eyebrow">
+                {banners[bannerIdx]?.subtitle || "Pure & Traditionally Pressed"}
+              </p>
+              <h2 className="hero-banner-mobile-title">
+                {banners[bannerIdx]?.title || "Taste the Tradition"}
+              </h2>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Feature strip */}
       <section style={styles.featureStrip}>
-        <div className="container" style={styles.featureGrid}>
+        <div className="container feature-strip-grid" style={styles.featureGrid}>
           {FEATURES.map((f) => (
-            <div key={f.title} style={styles.featureItem}>
+            <div key={f.title} style={styles.featureItem} className="feature-strip-item">
               <span style={{ color: "var(--saffron)" }}><Icon name={f.icon} /></span>
               <div>
                 <div style={styles.featureTitle}>{f.title}</div>
@@ -487,9 +502,9 @@ const Home = () => {
           <h2>Why Choose Maharaja Oils?</h2>
           <div className="flourish" />
         </div>
-        <div style={styles.whyGrid}>
+        <div style={styles.whyGrid} className="why-us-grid">
           {WHY_US.map((w) => (
-            <div key={w.title} style={styles.whyCard}>
+            <div key={w.title} style={styles.whyCard} className="why-us-card">
               <span style={{ color: "var(--wood)" }}><Icon name={w.icon} /></span>
               <h4 style={{ fontSize: "0.95rem", marginTop: 10 }}>{w.title}</h4>
               <p style={{ fontSize: "0.82rem", marginBottom: 0 }}>{w.sub}</p>
@@ -507,7 +522,7 @@ const Home = () => {
           <h2>Featured Products</h2>
           <div className="flourish" />
         </div>
-        <div style={styles.productGrid}>
+        <div style={styles.productGrid} className="product-grid-home">
           {(loading ? Array.from({ length: 8 }) : featured).map((p, i) =>
             p ? <ProductCard key={p._id} product={p} /> : <div key={i} className="skeleton" style={{ height: 320 }} />
           )}

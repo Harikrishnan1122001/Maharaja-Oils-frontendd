@@ -91,6 +91,51 @@
 }
 
 /* =====================================================================
+   TOP PROMO STRIP — MOBILE SLIDING TICKER
+   Trust tags ("100% Natural", "No Preservatives", "Traditionally Pressed")
+   auto-scroll in a smooth, continuous, single-line ribbon on mobile
+   instead of being dropped. Desktop is unaffected (hidden by default,
+   shown only inside the max-width query below).
+   ===================================================================== */
+.utility-marquee-mobile { display: none; }
+
+@media (max-width: 860px) {
+  .utility-marquee-mobile {
+    display: block;
+    overflow: hidden;
+    padding: 6px 0 2px;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  }
+
+  .utility-marquee-track {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;
+    padding-left: 100%;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    color: var(--ivory-deep);
+    animation: utilityMarqueeSlide 16s linear infinite;
+  }
+
+  .marquee-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--saffron);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+}
+
+@keyframes utilityMarqueeSlide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* =====================================================================
    HERO BANNER — on mobile the banner is shown at its natural aspect
    ratio (object-fit: contain, normal document flow) instead of being
    cropped by a fixed-height, object-fit: cover box.
@@ -115,6 +160,49 @@
     position: absolute !important;
     inset: 0 !important;
   }
+}
+
+/* =====================================================================
+   HERO BANNER — MOBILE TYPOGRAPHY
+   The heading/subtitle over the hero image is desktop-hidden (the section
+   is image-only there, unchanged). On mobile it becomes a compact, elegant
+   headline that slides smoothly in from the left each time the carousel
+   rotates — no stacked full-width title/paragraph/button blocks.
+   ===================================================================== */
+.hero-banner-mobile-copy { display: none; }
+
+@media (max-width: 780px) {
+  .hero-banner-mobile-copy {
+    display: block;
+    max-width: 86%;
+    padding: 16px 0 20px;
+    animation: heroMobileSlideIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .hero-banner-mobile-eyebrow {
+    font-family: var(--font-body);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.66rem;
+    color: var(--saffron);
+    margin: 0 0 6px;
+  }
+
+  .hero-banner-mobile-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    color: var(--ivory);
+    font-size: clamp(1.5rem, 7.5vw, 2.1rem);
+    line-height: 1.18;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  }
+}
+
+@keyframes heroMobileSlideIn {
+  from { opacity: 0; transform: translateX(-26px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 /* =====================================================================
@@ -179,6 +267,81 @@
 
 @media (min-width: 781px) {
   .category-carousel-hint { display: none; }
+}
+
+/* =====================================================================
+   HOME PAGE — MOBILE GRID REFINEMENTS
+   Several homepage sections use auto-fit/auto-fill grids that are handy
+   on desktop but collapse to a single narrow column on phones once the
+   minmax() floor no longer fits twice. That reads as a plain vertical
+   list. These overrides give each section a deliberate, aligned mobile
+   layout instead, without touching anything above 780px.
+   ===================================================================== */
+@media (max-width: 780px) {
+  /* Feature strip: two tidy columns, left-aligned icon+text pairs,
+     instead of one wide centered row per feature. */
+  .feature-strip-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px 14px !important;
+  }
+  .feature-strip-item {
+    justify-content: flex-start !important;
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Below ~480px, the 5th "Authentic" feature would otherwise sit alone
+     on its own row looking off-balance — center it to span cleanly. */
+  .feature-strip-grid > *:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-content: center !important;
+    text-align: center;
+  }
+}
+
+/* Why Choose Us: explicit side-by-side 2-column grid on mobile instead
+   of the auto-fit grid falling back to a single stacked column. */
+@media (max-width: 780px) {
+  .why-us-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px !important;
+  }
+  .why-us-card {
+    padding: 20px 14px !important;
+  }
+  .why-us-card svg { width: 26px !important; height: 26px !important; }
+}
+
+@media (max-width: 400px) {
+  /* Very small phones: keep two columns but trim padding/type a touch
+     further so nothing crowds or wraps awkwardly. */
+  .why-us-card { padding: 16px 10px !important; }
+  .why-us-card h4 { font-size: 0.86rem !important; }
+  .why-us-card p { font-size: 0.75rem !important; }
+}
+
+/* Featured products: two-up grid reads as a proper boutique shop shelf
+   on mobile rather than one product per row. */
+@media (max-width: 780px) {
+  .product-grid-home {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px !important;
+  }
+}
+@media (max-width: 380px) {
+  .product-grid-home { gap: 10px !important; }
+}
+
+/* Tighten product card type/spacing so it reads cleanly at 2-up width,
+   without touching ProductCard's markup or its desktop/Shop-page look
+   (only cards nested inside the home page's mobile 2-col grid match). */
+@media (max-width: 780px) {
+  .product-grid-home .card h3 { font-size: 0.94rem !important; line-height: 1.25; }
+  .product-grid-home .card p { font-size: 0.74rem !important; margin-bottom: 8px !important; }
+  .product-grid-home .card > div:last-child { padding: 12px 12px 14px !important; }
+  .product-grid-home .card button.btn-sm { padding: 7px 10px !important; font-size: 0.64rem !important; letter-spacing: 0.02em !important; }
+  .product-grid-home .card [style*="justify-content: space-between"] { flex-wrap: wrap; gap: 8px; }
 }
 
 /* =====================================================================
@@ -270,57 +433,75 @@
 /* =====================================================================
    ADMIN PANEL — mobile sidebar drawer, top bar, and stacked layouts for
    the Categories / Products / Banners / Orders / Users pages.
+
+   NOTE: this block previously targeted class names (.admin-topbar-mobile,
+   .admin-hamburger-btn, .admin-topbar-label, .admin-sidebar-head,
+   .admin-drawer-close, .admin-backdrop.is-open) that don't actually exist
+   in AdminLayout.js — so the mobile top bar rendered unstyled and always
+   visible (even on desktop), and the drawer backdrop never dimmed or
+   caught clicks. Rewritten below to match the real classes the component
+   renders: .admin-topbar / .admin-topbar-toggle / .admin-topbar-title /
+   .admin-topbar-avatar / .admin-sidebar-close / .admin-backdrop.
    ===================================================================== */
 
-/* Mobile top bar (hamburger + section label) — hidden on desktop */
-.admin-topbar-mobile { display: none; }
+/* Mobile top bar (hamburger + brand + avatar) — hidden on desktop */
+.admin-topbar { display: none; }
 
-.admin-backdrop {
-  display: none;
-}
-
-.admin-drawer-close { display: none; }
+/* Close (✕) button lives inside the sidebar brand block; only meant to
+   be seen once the sidebar becomes an off-canvas drawer on mobile. */
+.admin-sidebar-close { display: none; }
 
 @media (max-width: 900px) {
   .admin-shell { flex-direction: column; }
 
-  .admin-topbar-mobile {
+  .admin-topbar {
     display: flex !important;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     position: sticky;
     top: 0;
     z-index: 40;
-    background: var(--wood);
+    background: linear-gradient(135deg, var(--wood) 0%, var(--maroon-dark) 100%);
     color: var(--ivory);
     padding: 14px 16px;
+    box-shadow: 0 2px 14px rgba(59, 9, 15, 0.18);
   }
 
-  .admin-hamburger-btn {
-    display: flex;
-    flex-direction: column;
+  .admin-topbar-toggle {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    gap: 4px;
-    width: 30px;
-    height: 30px;
-    background: none;
+    width: 34px;
+    height: 34px;
+    background: rgba(251, 243, 228, 0.1);
     border: none;
-    padding: 0;
+    border-radius: 9px;
+    color: var(--ivory);
+    font-size: 1.15rem;
     cursor: pointer;
     flex-shrink: 0;
-  }
-  .admin-hamburger-btn span {
-    display: block;
-    width: 100%;
-    height: 2px;
-    background: var(--ivory);
-    border-radius: 2px;
+    padding: 0;
   }
 
-  .admin-topbar-label {
+  .admin-topbar-title {
     font-weight: 700;
     font-size: 1rem;
     font-family: var(--font-display);
+    flex: 1;
+  }
+
+  .admin-topbar-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--saffron);
+    color: var(--maroon-dark);
+    font-weight: 700;
+    font-size: 0.72rem;
+    flex-shrink: 0;
   }
 
   /* Sidebar becomes an off-canvas drawer */
@@ -329,57 +510,75 @@
     top: 0;
     left: 0;
     height: 100vh !important;
-    width: 250px !important;
+    width: 260px !important;
     max-width: 82vw;
     transform: translateX(-100%);
-    transition: transform 0.22s ease;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
     z-index: 60;
-    box-shadow: 2px 0 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 4px 0 28px rgba(0, 0, 0, 0.3);
   }
   .admin-sidebar.is-open {
     transform: translateX(0);
   }
 
-  .admin-sidebar-head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  .admin-drawer-close {
+  .admin-brand { padding-right: 32px; }
+
+  .admin-sidebar-close {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
-    background: none;
-    border: 1px solid var(--wood-soft);
+    width: 28px;
+    height: 28px;
+    background: rgba(251, 243, 228, 0.08);
+    border: none;
     border-radius: 8px;
     color: var(--ivory);
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     flex-shrink: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: background 0.15s ease;
   }
+  .admin-sidebar-close:hover { background: rgba(251, 243, 228, 0.18); }
 
+  /* Backdrop is only ever mounted (conditionally) while the drawer is
+     open, so it can simply be visible/interactive whenever present —
+     no separate .is-open toggle class is needed or used by the JSX. */
   .admin-backdrop {
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0);
-    pointer-events: none;
-    transition: background 0.22s ease;
-    z-index: 50;
-  }
-  .admin-backdrop.is-open {
     background: rgba(0, 0, 0, 0.45);
     pointer-events: auto;
+    z-index: 50;
+    animation: adminBackdropFade 0.2s ease both;
   }
 
   /* Content takes the full width; the sidebar no longer sits beside it */
   .admin-content {
     max-width: 100% !important;
-    padding: 20px 16px !important;
+    padding: 22px 16px 40px !important;
   }
+}
+
+@keyframes adminBackdropFade {
+  from { background: rgba(0, 0, 0, 0); }
+  to { background: rgba(0, 0, 0, 0.45); }
+}
+
+/* Dashboard stat cards: comfortable 2-up on tablet/phone instead of one
+   per row once the auto-fit grid runs out of room. */
+@media (max-width: 640px) {
+  .admin-stat-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+}
+@media (max-width: 420px) {
+  .admin-stat-card { padding: 16px !important; gap: 10px !important; }
+  .admin-stat-icon-badge { width: 38px !important; height: 38px !important; font-size: 1.05rem !important; }
 }
 
 /* Split form/list layouts (Categories, Products, Banners, Order & User

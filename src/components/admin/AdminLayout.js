@@ -104,9 +104,18 @@ const AdminLayout = ({ children }) => {
 
   const closeSidebar = () => setSidebarOpen(false);
 
+  const initials = (user?.name || "A")
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase())
+    .join("");
+
   return (
     <div style={styles.shell} className="admin-shell">
       <ScrollReveal />
+
+      {/* Mobile-only top bar: hamburger to open the sidebar as a drawer */}
       <div className="admin-topbar">
         <button
           type="button"
@@ -116,7 +125,8 @@ const AdminLayout = ({ children }) => {
         >
           ☰
         </button>
-        
+        <span className="admin-topbar-title">Maharaja Admin</span>
+        <span className="admin-topbar-avatar" aria-hidden="true">{initials}</span>
       </div>
 
       {sidebarOpen && (
@@ -124,7 +134,7 @@ const AdminLayout = ({ children }) => {
       )}
 
       <aside style={styles.sidebar} className={`admin-sidebar${sidebarOpen ? " is-open" : ""}`}>
-        <div style={styles.brand}>
+        <div style={styles.brand} className="admin-brand">
           <span style={{ fontFamily: "var(--font-display)", fontSize: "1.4rem" }}>Maharaja</span>
           <span style={styles.brandSub}>Admin Panel</span>
           <button
@@ -143,17 +153,22 @@ const AdminLayout = ({ children }) => {
               to={l.to}
               end={l.end}
               onClick={closeSidebar}
+              className="admin-nav-item"
               style={({ isActive }) => ({
                 ...styles.navItem,
                 ...(isActive ? styles.navItemActive : {}),
               })}
             >
-              <span style={{ fontSize: "1.05rem" }}>{l.icon}</span> {l.label}
+              <span className="admin-nav-icon">{l.icon}</span>
+              <span>{l.label}</span>
             </NavLink>
           ))}
         </nav>
-        <div style={styles.sidebarFooter}>
-          <div style={{ fontSize: "0.85rem", color: "var(--ivory-deep)" }}>{user?.name}</div>
+        <div style={styles.sidebarFooter} className="admin-sidebar-footer">
+          <div className="admin-user-chip">
+            <span className="admin-user-avatar" aria-hidden="true">{initials}</span>
+            <span style={{ fontSize: "0.85rem", color: "var(--ivory-deep)", fontWeight: 600 }}>{user?.name}</span>
+          </div>
           <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
           <NavLink to="/" style={styles.backLink}>← Back to store</NavLink>
         </div>
@@ -166,24 +181,30 @@ const AdminLayout = ({ children }) => {
 const styles = {
   shell: { display: "flex", minHeight: "100vh", background: "var(--ivory)" },
   sidebar: {
-    width: 230, flexShrink: 0, background: "var(--wood)", color: "var(--ivory)",
-    display: "flex", flexDirection: "column", padding: "24px 16px", position: "sticky", top: 0, height: "100vh",
+    width: 240, flexShrink: 0, color: "var(--ivory)",
+    background: "linear-gradient(190deg, var(--wood) 0%, var(--maroon-dark) 100%)",
+    display: "flex", flexDirection: "column", padding: "26px 16px", position: "sticky", top: 0, height: "100vh",
+    boxShadow: "4px 0 24px rgba(59, 9, 15, 0.18)",
   },
-  brand: { marginBottom: 30, paddingLeft: 8, display: "flex", flexDirection: "column", position: "relative" },
+  brand: { marginBottom: 28, paddingLeft: 8, paddingBottom: 20, display: "flex", flexDirection: "column", position: "relative", borderBottom: "1px solid rgba(222, 185, 79, 0.18)" },
   brandSub: { fontSize: "0.7rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--saffron)", marginTop: 2 },
-  nav: { display: "flex", flexDirection: "column", gap: 4, flex: 1 },
+  nav: { display: "flex", flexDirection: "column", gap: 5, flex: 1 },
   navItem: {
-    display: "flex", alignItems: "center", gap: 10, padding: "11px 12px", borderRadius: 8,
+    display: "flex", alignItems: "center", gap: 12, padding: "11px 12px", borderRadius: 10,
     color: "var(--ivory-deep)", fontWeight: 600, fontSize: "0.92rem",
+    borderLeft: "3px solid transparent", transition: "background 0.18s ease, color 0.18s ease, transform 0.18s ease",
   },
-  navItemActive: { background: "var(--wood-soft)", color: "var(--white)" },
-  sidebarFooter: { borderTop: "1px solid var(--wood-soft)", paddingTop: 16, display: "flex", flexDirection: "column", gap: 10 },
+  navItemActive: {
+    background: "rgba(222, 185, 79, 0.14)", color: "var(--white)",
+    borderLeft: "3px solid var(--saffron)", boxShadow: "inset 0 0 0 1px rgba(222, 185, 79, 0.12)",
+  },
+  sidebarFooter: { borderTop: "1px solid rgba(222, 185, 79, 0.18)", paddingTop: 18, display: "flex", flexDirection: "column", gap: 10 },
   logoutBtn: {
     background: "var(--clay)", color: "#fff", border: "none", borderRadius: 8, padding: "9px 12px",
-    fontWeight: 600, cursor: "pointer", fontSize: "0.85rem",
+    fontWeight: 600, cursor: "pointer", fontSize: "0.85rem", transition: "transform 0.15s ease, box-shadow 0.15s ease",
   },
-  backLink: { fontSize: "0.8rem", color: "var(--saffron)" },
-  content: { flex: 1, padding: "32px 40px", maxWidth: "calc(100% - 230px)" },
+  backLink: { fontSize: "0.8rem", color: "var(--saffron)", fontWeight: 600 },
+  content: { flex: 1, padding: "32px 40px", maxWidth: "calc(100% - 240px)" },
 };
 
 export default AdminLayout;
