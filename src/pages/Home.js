@@ -323,11 +323,11 @@ const FALLBACK_BANNERS = [
 ];
 
 const FEATURES = [
-  { icon: "leaf", title: "100% Natural", sub: "No Chemicals" },
-  { icon: "mill", title: "Traditionally", sub: "Cold Pressed" },
-  { icon: "seed", title: "Premium", sub: "Quality Seeds" },
-  { icon: "heart", title: "Rich in Nutrition", sub: "Good for Health" },
-  { icon: "badge", title: "Authentic", sub: "Traditional Taste" },
+  // { icon: "leaf", title: "100% Natural", sub: "No Chemicals" },
+  // { icon: "mill", title: "Traditionally", sub: "Cold Pressed" },
+  // { icon: "seed", title: "Premium", sub: "Quality Seeds" },
+  // { icon: "heart", title: "Rich in Nutrition", sub: "Good for Health" },
+  // { icon: "badge", title: "Authentic", sub: "Traditional Taste" },
 ];
 
 const PROCESS = [

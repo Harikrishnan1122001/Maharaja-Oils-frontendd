@@ -131,4 +131,7 @@ export const adminApi = {
   // Settings
   updateSettings: (formData) =>
     api.put("/admin/settings", formData, { headers: { "Content-Type": "multipart/form-data" } }),
+
+  // Marquee (bottom sliding ticker — text, on/off, speed)
+  updateMarquee: (data) => api.put("/admin/settings/marquee", data),
 };

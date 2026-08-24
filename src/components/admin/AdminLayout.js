@@ -90,6 +90,7 @@ const links = [
   { to: "/admin/orders", label: "Orders", icon: "📦" },
   { to: "/admin/users", label: "Users", icon: "👤" },
   { to: "/admin/banners", label: "Banners", icon: "🖼" },
+  { to: "/admin/marquee", label: "Marquee", icon: "📢" },
 ];
 
 const AdminLayout = ({ children }) => {

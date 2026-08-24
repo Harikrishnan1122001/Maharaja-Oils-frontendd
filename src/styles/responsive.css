@@ -646,3 +646,84 @@
   .admin-status-select { width: 100%; }
   .admin-search-input-wide { max-width: 100% !important; }
 }
+/* =====================================================================
+   SITE MARQUEE — sliding strip pinned to the very bottom of every
+   storefront page (rendered after <Footer /> in App.js). Content comes
+   from Settings ➜ Marquee in the admin panel, so text can be added or
+   changed without a code deploy. Works identically (and smoothly) on
+   both desktop and mobile: a single seamless CSS animation, no JS
+   re-render on scroll, sized with clamp() so it scales at any width.
+   ===================================================================== */
+.site-marquee {
+  width: 100%;
+  overflow: hidden;
+  background: var(--maroon-dark);
+  border-top: 1px solid rgba(222, 185, 79, 0.22);
+  padding: clamp(8px, 1.6vw, 12px) 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+}
+
+.site-marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  white-space: nowrap;
+  animation-name: siteMarqueeSlide;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* Pause on hover for desktop/pointer devices so the text can be read;
+   mobile/touch devices have no hover state, so this never affects them. */
+@media (hover: hover) and (pointer: fine) {
+  .site-marquee:hover .site-marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+/* Respect reduced-motion preferences — show the content statically
+   rather than force continuous motion on users who've opted out. */
+@media (prefers-reduced-motion: reduce) {
+  .site-marquee-track {
+    animation: none;
+  }
+  .site-marquee {
+    overflow-x: auto;
+  }
+}
+
+.site-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: clamp(10px, 2vw, 18px);
+  padding: 0 clamp(10px, 2vw, 18px);
+}
+
+.site-marquee-text {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: clamp(0.66rem, 1.4vw, 0.85rem);
+  color: var(--ivory);
+}
+
+.site-marquee-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--saffron);
+  flex-shrink: 0;
+}
+
+@keyframes siteMarqueeSlide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (max-width: 480px) {
+  .site-marquee { padding: 7px 0; }
+  .site-marquee-item { padding: 0 10px; gap: 10px; }
+}

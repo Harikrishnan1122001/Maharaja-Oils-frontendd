@@ -3,6 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Marquee from "./components/Marquee";
 import ScrollReveal from "./components/ScrollReveal";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
@@ -30,6 +31,7 @@ import AdminOrderDetail from "./pages/admin/AdminOrderDetail";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminUserDetail from "./pages/admin/AdminUserDetail";
 import AdminBanners from "./pages/admin/AdminBanners";
+import AdminMarquee from "./pages/admin/AdminMarquee";
 
 // Storefront pages get the shared Navbar/Footer chrome.
 const StoreLayout = ({ children }) => (
@@ -38,6 +40,7 @@ const StoreLayout = ({ children }) => (
     <Navbar />
     <main style={{ minHeight: "60vh" }}>{children}</main>
     <Footer />
+    <Marquee />
   </>
 );
 
@@ -56,6 +59,7 @@ function App() {
             <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
             <Route path="/admin/users/:id" element={<AdminRoute><AdminUserDetail /></AdminRoute>} />
             <Route path="/admin/banners" element={<AdminRoute><AdminBanners /></AdminRoute>} />
+            <Route path="/admin/marquee" element={<AdminRoute><AdminMarquee /></AdminRoute>} />
 
             {/* Storefront routes */}
             <Route path="/" element={<StoreLayout><Home /></StoreLayout>} />
