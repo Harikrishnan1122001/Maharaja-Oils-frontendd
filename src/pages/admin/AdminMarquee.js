@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import AdminLayout from "../../components/admin/AdminLayout";
 import { adminApi, settingsApi } from "../../api/endpoints";
 
-// Admin page for the bottom-of-site sliding marquee. Lets admins add,
-// edit, reorder, and remove ticker items, toggle it on/off, and tune the
-// scroll speed — all without touching code. Saves to Settings ➜ marquee,
-// which the public Marquee component (rendered at the bottom of every
-// storefront page) reads from.
+// Admin page for the rolling ticker shown directly below the hero banner
+// on the storefront. Lets admins add, edit, reorder, and remove ticker
+// items, toggle it on/off, and tune the scroll speed — all without
+// touching code. Saves to Settings ➜ marquee, which the public Marquee
+// component (rendered on the Home page, just under the hero banner)
+// reads from.
 const AdminMarquee = () => {
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState("");
@@ -98,9 +99,9 @@ const AdminMarquee = () => {
   return (
     <AdminLayout>
       <p className="eyebrow">Storefront</p>
-      <h1>Bottom Marquee</h1>
+      <h1>Hero Marquee</h1>
       <p style={{ color: "var(--wood-soft)", marginTop: -6, marginBottom: 22, maxWidth: 640 }}>
-        Manage the sliding text strip shown at the bottom of every page on the website
+        Manage the rolling text strip shown directly below the hero banner on the homepage
         (e.g. "100% Natural", "No Chemicals", "Transparent Sourcing"). Add, edit, reorder,
         or remove items — changes go live as soon as you save.
       </p>
@@ -221,15 +222,19 @@ const AdminMarquee = () => {
             {previewTrack.length > 0 && enabled && (
               <>
                 <h3 style={{ margin: "26px 0 12px" }}>Live Preview</h3>
-                <div className="site-marquee" style={{ borderRadius: 12 }}>
+                <div className="hero-marquee" style={{ borderRadius: 12 }}>
                   <div
-                    className="site-marquee-track"
+                    className="hero-marquee-track"
                     style={{ animationDuration: `${Number(speed) || 28}s` }}
                   >
                     {previewTrack.map((text, i) => (
-                      <span className="site-marquee-item" key={`${text}-${i}`}>
-                        <span className="site-marquee-text">{text}</span>
-                        <span className="site-marquee-dot" aria-hidden="true" />
+                      <span className="hero-marquee-item" key={`${text}-${i}`}>
+                        <span className="hero-marquee-icon" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M20 6 9 17l-5-5" />
+                          </svg>
+                        </span>
+                        <span className="hero-marquee-text">{text}</span>
                       </span>
                     ))}
                   </div>
