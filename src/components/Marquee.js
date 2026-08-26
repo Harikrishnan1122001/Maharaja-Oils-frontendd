@@ -4,11 +4,12 @@ import { settingsApi } from "../api/endpoints";
 // Sensible fallback so the strip never looks broken before the admin has
 // configured anything (or if the settings request fails).
 const DEFAULT_ITEMS = ["100% Natural", "No Chemicals", "Transparent Sourcing"];
-const DEFAULT_SPEED = 28;
+const DEFAULT_SPEED = 22;
 
-// Bottom-of-site sliding marquee. Content (the list of ticker items, on/off
-// switch, and scroll speed) is fully managed from the admin panel via
-// Settings ➜ Marquee, so admins can add/update text without touching code.
+// Rolling ticker shown directly below the hero banner on the storefront.
+// Content (the list of ticker items, on/off switch, and scroll speed) is
+// fully managed from the admin panel via Settings ➜ Marquee, so admins can
+// add/update text without touching code.
 const Marquee = () => {
   const [items, setItems] = useState(DEFAULT_ITEMS);
   const [speed, setSpeed] = useState(DEFAULT_SPEED);
@@ -46,15 +47,16 @@ const Marquee = () => {
   const track = [...items, ...items];
 
   return (
-    <div className="site-marquee" role="marquee" aria-label="Site highlights">
-      <div
-        className="site-marquee-track"
-        style={{ animationDuration: `${speed}s` }}
-      >
+    <div className="hero-marquee" role="marquee" aria-label="Site highlights">
+      <div className="hero-marquee-track" style={{ animationDuration: `${speed}s` }}>
         {track.map((text, i) => (
-          <span className="site-marquee-item" key={`${text}-${i}`}>
-            <span className="site-marquee-text">{text}</span>
-            <span className="site-marquee-dot" aria-hidden="true" />
+          <span className="hero-marquee-item" key={`${text}-${i}`}>
+            <span className="hero-marquee-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 6 9 17l-5-5" />
+              </svg>
+            </span>
+            <span className="hero-marquee-text">{text}</span>
           </span>
         ))}
       </div>

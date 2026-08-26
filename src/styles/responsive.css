@@ -277,28 +277,6 @@
    list. These overrides give each section a deliberate, aligned mobile
    layout instead, without touching anything above 780px.
    ===================================================================== */
-@media (max-width: 780px) {
-  /* Feature strip: two tidy columns, left-aligned icon+text pairs,
-     instead of one wide centered row per feature. */
-  .feature-strip-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 20px 14px !important;
-  }
-  .feature-strip-item {
-    justify-content: flex-start !important;
-    text-align: left;
-  }
-}
-
-@media (max-width: 480px) {
-  /* Below ~480px, the 5th "Authentic" feature would otherwise sit alone
-     on its own row looking off-balance — center it to span cleanly. */
-  .feature-strip-grid > *:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-    justify-content: center !important;
-    text-align: center;
-  }
-}
 
 /* Why Choose Us: explicit side-by-side 2-column grid on mobile instead
    of the auto-fit grid falling back to a single stacked column. */
@@ -647,29 +625,34 @@
   .admin-search-input-wide { max-width: 100% !important; }
 }
 /* =====================================================================
-   SITE MARQUEE — sliding strip pinned to the very bottom of every
-   storefront page (rendered after <Footer /> in App.js). Content comes
-   from Settings ➜ Marquee in the admin panel, so text can be added or
-   changed without a code deploy. Works identically (and smoothly) on
-   both desktop and mobile: a single seamless CSS animation, no JS
-   re-render on scroll, sized with clamp() so it scales at any width.
+   HERO MARQUEE — rolling ticker strip shown directly below the hero
+   banner on the storefront (rendered inside Home.js, right after the
+   hero <section>). Content comes from Settings ➜ Marquee in the admin
+   panel, so text can be added or changed without a code deploy. Works
+   identically (and smoothly) on both desktop and mobile: a single
+   seamless CSS animation, no JS re-render on scroll, sized with clamp()
+   so it scales at any width. Framed top and bottom with a slim gold
+   line (no more solid, empty maroon block) and each item gets a small
+   check-mark glyph instead of a plain dot, for a lighter, more
+   deliberate "trust strip" feel than a plain sliding block of text.
    ===================================================================== */
-.site-marquee {
+.hero-marquee {
   width: 100%;
   overflow: hidden;
-  background: var(--maroon-dark);
-  border-top: 1px solid rgba(222, 185, 79, 0.22);
-  padding: clamp(8px, 1.6vw, 12px) 0;
+  background: var(--wood);
+  border-top: 1px solid rgba(222, 185, 79, 0.35);
+  border-bottom: 1px solid rgba(222, 185, 79, 0.35);
+  padding: clamp(9px, 1.8vw, 13px) 0;
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
   mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
 }
 
-.site-marquee-track {
+.hero-marquee-track {
   display: flex;
   align-items: center;
   width: max-content;
   white-space: nowrap;
-  animation-name: siteMarqueeSlide;
+  animation-name: heroMarqueeRoll;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
@@ -677,7 +660,7 @@
 /* Pause on hover for desktop/pointer devices so the text can be read;
    mobile/touch devices have no hover state, so this never affects them. */
 @media (hover: hover) and (pointer: fine) {
-  .site-marquee:hover .site-marquee-track {
+  .hero-marquee:hover .hero-marquee-track {
     animation-play-state: paused;
   }
 }
@@ -685,23 +668,36 @@
 /* Respect reduced-motion preferences — show the content statically
    rather than force continuous motion on users who've opted out. */
 @media (prefers-reduced-motion: reduce) {
-  .site-marquee-track {
+  .hero-marquee-track {
     animation: none;
   }
-  .site-marquee {
+  .hero-marquee {
     overflow-x: auto;
   }
 }
 
-.site-marquee-item {
+.hero-marquee-item {
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  gap: clamp(10px, 2vw, 18px);
-  padding: 0 clamp(10px, 2vw, 18px);
+  gap: clamp(7px, 1.2vw, 10px);
+  padding: 0 clamp(12px, 2.2vw, 20px);
+  border-right: 1px solid rgba(251, 243, 228, 0.16);
 }
 
-.site-marquee-text {
+.hero-marquee-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--saffron);
+  color: var(--maroon-dark);
+  flex-shrink: 0;
+}
+
+.hero-marquee-text {
   font-family: var(--font-body);
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -710,20 +706,13 @@
   color: var(--ivory);
 }
 
-.site-marquee-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--saffron);
-  flex-shrink: 0;
-}
-
-@keyframes siteMarqueeSlide {
+@keyframes heroMarqueeRoll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
 
 @media (max-width: 480px) {
-  .site-marquee { padding: 7px 0; }
-  .site-marquee-item { padding: 0 10px; gap: 10px; }
+  .hero-marquee { padding: 8px 0; }
+  .hero-marquee-item { padding: 0 12px; gap: 6px; }
+  .hero-marquee-icon { width: 16px; height: 16px; }
 }

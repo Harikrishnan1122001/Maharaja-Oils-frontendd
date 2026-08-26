@@ -316,18 +316,11 @@ import { productApi, categoryApi, bannerApi } from "../api/endpoints";
 import ProductCard from "../components/ProductCard";
 import DripDivider from "../components/DripDivider";
 import CategoryCarousel from "../components/CategoryCarousel";
+import Marquee from "../components/Marquee";
 
 const FALLBACK_BANNERS = [
   { image: { url: "https://maharajaoils.com/assets/img/banners/Home-carousel-new-1.jpg" } },
   { image: { url: "https://maharajaoils.com/assets/img/banners/Home-carousel-new-2.jpg" } },
-];
-
-const FEATURES = [
-  // { icon: "leaf", title: "100% Natural", sub: "No Chemicals" },
-  // { icon: "mill", title: "Traditionally", sub: "Cold Pressed" },
-  // { icon: "seed", title: "Premium", sub: "Quality Seeds" },
-  // { icon: "heart", title: "Rich in Nutrition", sub: "Good for Health" },
-  // { icon: "badge", title: "Authentic", sub: "Traditional Taste" },
 ];
 
 const PROCESS = [
@@ -437,20 +430,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Feature strip */}
-      <section style={styles.featureStrip}>
-        <div className="container feature-strip-grid" style={styles.featureGrid}>
-          {FEATURES.map((f) => (
-            <div key={f.title} style={styles.featureItem} className="feature-strip-item">
-              <span style={{ color: "var(--saffron)" }}><Icon name={f.icon} /></span>
-              <div>
-                <div style={styles.featureTitle}>{f.title}</div>
-                <div style={styles.featureSub}>{f.sub}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* Rolling trust-tag ticker, admin-managed via Settings ➜ Marquee */}
+      <Marquee />
 
       {/* Premium Oils / Categories */}
       <section className="container" style={{ marginTop: 56 }}>
@@ -597,12 +578,6 @@ const styles = {
     background: "linear-gradient(90deg, rgba(59,9,15,0.86) 0%, rgba(59,9,15,0.45) 55%, rgba(59,9,15,0.15) 100%)",
     display: "flex", alignItems: "center",
   },
-  featureStrip: { background: "var(--wood)", padding: "22px 0" },
-  featureGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 18 },
-  featureItem: { display: "flex", alignItems: "center", gap: 12, justifyContent: "center" },
-  featureTitle: { color: "var(--ivory)", fontWeight: 600, fontSize: "0.85rem" },
-  featureSub: { color: "var(--ivory-deep)", fontSize: "0.78rem" },
-
   catGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 22, marginTop: 24 },
   catCard: { textAlign: "center", padding: "26px 20px", display: "flex", flexDirection: "column", alignItems: "center", gap: 8 },
   catImgWrap: { width: "100%", maxWidth: 150, aspectRatio: "1/1.6", borderRadius: "var(--radius)", overflow: "hidden", background: "var(--ivory-deep)", marginBottom: 6 },
