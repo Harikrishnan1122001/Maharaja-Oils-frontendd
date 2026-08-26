@@ -11,17 +11,10 @@ const ProductCard = ({ product }) => {
   const [wished, setWished] = useState(false);
 
   const sellPrice = (v) => (v.discountPrice > 0 ? v.discountPrice : v.price);
-  const hasVariants = product.variants?.length > 0;
-  // Products can be sold either via size-based variants or, when none are
-  // defined, via the product's own base price/stock (a valid, supported
-  // shape on the backend) — fall back to those so the card never renders
-  // without a price or a working "Shop Now" button.
-  const cheapestVariant = hasVariants
+  const cheapestVariant = product.variants?.length
     ? [...product.variants].sort((a, b) => sellPrice(a) - sellPrice(b))[0]
-    : { _id: null, price: product.price, discountPrice: product.discountPrice || 0, stock: product.stock || 0 };
-  const totalStock = hasVariants
-    ? product.variants.reduce((s, v) => s + v.stock, 0)
-    : product.stock || 0;
+    : null;
+  const totalStock = product.variants?.reduce((s, v) => s + v.stock, 0) ?? 0;
 
   const handleQuickAdd = async (e) => {
     e.preventDefault();

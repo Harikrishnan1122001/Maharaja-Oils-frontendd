@@ -3,6 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Marquee from "./components/Marquee";
 import ScrollReveal from "./components/ScrollReveal";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
@@ -32,16 +33,14 @@ import AdminUserDetail from "./pages/admin/AdminUserDetail";
 import AdminBanners from "./pages/admin/AdminBanners";
 import AdminMarquee from "./pages/admin/AdminMarquee";
 
-// Storefront pages get the shared Navbar/Footer chrome. The rolling
-// trust-tag marquee now lives directly below the hero banner on the
-// Home page itself (see Home.js) rather than pinned under the footer
-// on every route.
+// Storefront pages get the shared Navbar/Footer chrome.
 const StoreLayout = ({ children }) => (
   <>
     <ScrollReveal />
     <Navbar />
     <main style={{ minHeight: "60vh" }}>{children}</main>
     <Footer />
+    <Marquee />
   </>
 );
 

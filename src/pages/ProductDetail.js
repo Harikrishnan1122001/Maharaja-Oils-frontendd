@@ -18,25 +18,6 @@ const ProductDetail = () => {
   const [adding, setAdding] = useState(false);
   const [wished, setWished] = useState(false);
 
-  const hasVariants = (product?.variants?.length || 0) > 0;
-
-  // Some products are sold using size-based variants (500ml/1L/5L, each
-  // with its own price/stock); others use the product's own base price
-  // and stock directly (no variants at all — this is a valid, supported
-  // product shape on the backend). Fall back to the base fields so price,
-  // stock, and Add to Cart still render correctly for those products.
-  const activeSelection = hasVariants
-    ? selectedVariant
-    : product
-    ? {
-        _id: null,
-        size: product.unit || "",
-        price: product.price,
-        discountPrice: product.discountPrice || 0,
-        stock: product.stock || 0,
-      }
-    : null;
-
   useEffect(() => {
     setLoading(true);
     setMessage("");
@@ -53,11 +34,11 @@ const ProductDetail = () => {
 
   const handleAddToCart = async () => {
     if (!user) return (window.location.href = "/login");
-    if (!activeSelection) return;
+    if (!selectedVariant) return;
     setAdding(true);
     setMessage("");
     try {
-      await addItem(product._id, activeSelection._id, qty);
+      await addItem(product._id, selectedVariant._id, qty);
       setMessage("Added to cart!");
     } catch (err) {
       setMessage(err.response?.data?.message || "Could not add to cart");
@@ -111,16 +92,16 @@ const ProductDetail = () => {
           <h1 style={{ marginBottom: 10 }}>{product.name}</h1>
           <p style={styles.description}>{product.description}</p>
 
-          {activeSelection && (
+          {selectedVariant && (
             <div style={styles.priceRow}>
               <span style={styles.price}>
-                ₹{activeSelection.discountPrice > 0 ? activeSelection.discountPrice : activeSelection.price}
+                ₹{selectedVariant.discountPrice > 0 ? selectedVariant.discountPrice : selectedVariant.price}
               </span>
-              {activeSelection.discountPrice > 0 && activeSelection.discountPrice < activeSelection.price && (
+              {selectedVariant.discountPrice > 0 && selectedVariant.discountPrice < selectedVariant.price && (
                 <>
-                  <span style={styles.mrp}>₹{activeSelection.price}</span>
+                  <span style={styles.mrp}>₹{selectedVariant.price}</span>
                   <span className="badge badge-sale">
-                    {Math.round(100 - (activeSelection.discountPrice / activeSelection.price) * 100)}% OFF
+                    {Math.round(100 - (selectedVariant.discountPrice / selectedVariant.price) * 100)}% OFF
                   </span>
                 </>
               )}
@@ -129,30 +110,28 @@ const ProductDetail = () => {
 
           <div className="drip-divider" style={{ margin: "22px 0" }} />
 
-          {hasVariants && (
-            <div className="field">
-              <label>Pack Size</label>
-              <div style={styles.variantRow}>
-                {product.variants.map((v) => (
-                  <button
-                    key={v._id}
-                    onClick={() => setSelectedVariant(v)}
-                    className={selectedVariant?._id === v._id ? "btn btn-primary btn-sm" : "btn btn-outline btn-sm"}
-                    disabled={v.stock === 0}
-                  >
-                    {v.size} {v.stock === 0 ? "(Sold out)" : ""}
-                  </button>
-                ))}
-              </div>
+          <div className="field">
+            <label>Pack Size</label>
+            <div style={styles.variantRow}>
+              {product.variants.map((v) => (
+                <button
+                  key={v._id}
+                  onClick={() => setSelectedVariant(v)}
+                  className={selectedVariant?._id === v._id ? "btn btn-primary btn-sm" : "btn btn-outline btn-sm"}
+                  disabled={v.stock === 0}
+                >
+                  {v.size} {v.stock === 0 ? "(Sold out)" : ""}
+                </button>
+              ))}
             </div>
-          )}
+          </div>
 
           <div className="field" style={{ maxWidth: 140 }}>
             <label>Quantity</label>
             <div style={styles.qtyRow}>
               <button onClick={() => setQty((q) => Math.max(1, q - 1))} className="btn-icon">−</button>
               <span style={{ fontWeight: 700, minWidth: 24, textAlign: "center" }}>{qty}</span>
-              <button onClick={() => setQty((q) => Math.min(activeSelection?.stock || 1, q + 1))} className="btn-icon">+</button>
+              <button onClick={() => setQty((q) => Math.min(selectedVariant?.stock || 1, q + 1))} className="btn-icon">+</button>
             </div>
           </div>
 
@@ -162,9 +141,9 @@ const ProductDetail = () => {
             <button
               onClick={handleAddToCart}
               className="btn btn-primary"
-              disabled={adding || !activeSelection || activeSelection.stock === 0}
+              disabled={adding || !selectedVariant || selectedVariant.stock === 0}
             >
-              {activeSelection?.stock === 0 ? "Sold Out" : adding ? "Adding…" : "Add to Cart"}
+              {selectedVariant?.stock === 0 ? "Sold Out" : adding ? "Adding…" : "Add to Cart"}
             </button>
             <button onClick={handleWishlist} className={`btn-icon ${wished ? "active" : ""}`} style={{ width: 48, height: 48 }} aria-label="Wishlist">
               {wished ? "♥" : "♡"}
@@ -176,10 +155,10 @@ const ProductDetail = () => {
               <span style={styles.metaLabel}>Category</span>
               <span style={styles.metaValue}>{product.category?.name || "—"}</span>
             </div>
-            {activeSelection && (
+            {selectedVariant && (
               <div style={styles.metaRow}>
                 <span style={styles.metaLabel}>In stock</span>
-                <span style={styles.metaValue}>{activeSelection.stock} units</span>
+                <span style={styles.metaValue}>{selectedVariant.stock} units</span>
               </div>
             )}
             <div style={{ ...styles.metaRow, borderBottom: "none" }}>
