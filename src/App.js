@@ -31,11 +31,6 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminUserDetail from "./pages/admin/AdminUserDetail";
 import AdminBanners from "./pages/admin/AdminBanners";
 import AdminMarquee from "./pages/admin/AdminMarquee";
-
-// Storefront pages get the shared Navbar/Footer chrome. The rolling
-// trust-tag marquee now lives directly below the hero banner on the
-// Home page itself (see Home.js) rather than pinned under the footer
-// on every route.
 const StoreLayout = ({ children }) => (
   <>
     <ScrollReveal />
@@ -44,7 +39,6 @@ const StoreLayout = ({ children }) => (
     <Footer />
   </>
 );
-
 function App() {
   return (
     <BrowserRouter>
@@ -61,7 +55,6 @@ function App() {
             <Route path="/admin/users/:id" element={<AdminRoute><AdminUserDetail /></AdminRoute>} />
             <Route path="/admin/banners" element={<AdminRoute><AdminBanners /></AdminRoute>} />
             <Route path="/admin/marquee" element={<AdminRoute><AdminMarquee /></AdminRoute>} />
-
             {/* Storefront routes */}
             <Route path="/" element={<StoreLayout><Home /></StoreLayout>} />
             <Route path="/shop" element={<StoreLayout><Shop /></StoreLayout>} />
@@ -85,5 +78,4 @@ function App() {
     </BrowserRouter>
   );
 }
-
 export default App;

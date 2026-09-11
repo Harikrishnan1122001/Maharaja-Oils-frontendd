@@ -2,13 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { authApi } from "../api/endpoints";
-
 const Account = () => {
   const { user, setUser } = useAuth();
   const [form, setForm] = useState({ name: user.name, phone: user.phone });
   const [message, setMessage] = useState("");
   const [saving, setSaving] = useState(false);
-
   const handleSave = async (e) => {
     e.preventDefault();
     setSaving(true);
@@ -24,7 +22,6 @@ const Account = () => {
       setSaving(false);
     }
   };
-
   return (
     <div className="container" style={{ padding: "40px 20px 70px", maxWidth: 720 }}>
       <h1>My Account</h1>
@@ -33,7 +30,6 @@ const Account = () => {
         <Link to="/account/orders" className="btn btn-outline btn-sm">Orders</Link>
         <Link to="/account/addresses" className="btn btn-outline btn-sm">Addresses</Link>
       </div>
-
       <div className="card" style={{ padding: 26, marginTop: 20 }}>
         {message && <div className="form-success-banner">{message}</div>}
         <form onSubmit={handleSave}>
@@ -55,7 +51,5 @@ const Account = () => {
     </div>
   );
 };
-
 const styles = { nav: { display: "flex", gap: 10, marginTop: 10 } };
-
 export default Account;

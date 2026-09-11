@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL || "https://maharaja-oils-backend.vercel.app/api",
 });
@@ -8,7 +7,6 @@ api.interceptors.request.use((config) => {
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
-
 api.interceptors.response.use(
   (res) => res,
   (err) => {
@@ -19,5 +17,4 @@ api.interceptors.response.use(
     return Promise.reject(err);
   }
 );
-
 export default api;

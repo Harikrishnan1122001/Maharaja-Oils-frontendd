@@ -3,19 +3,13 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import { wishlistApi } from "../api/endpoints";
-
 const ProductCard = ({ product }) => {
   const { user } = useAuth();
   const { addItem } = useCart();
   const [adding, setAdding] = useState(false);
   const [wished, setWished] = useState(false);
-
   const sellPrice = (v) => (v.discountPrice > 0 ? v.discountPrice : v.price);
   const hasVariants = product.variants?.length > 0;
-  // Products can be sold either via size-based variants or, when none are
-  // defined, via the product's own base price/stock (a valid, supported
-  // shape on the backend) — fall back to those so the card never renders
-  // without a price or a working "Shop Now" button.
   const cheapestVariant = hasVariants
     ? [...product.variants].sort((a, b) => sellPrice(a) - sellPrice(b))[0]
     : { _id: null, price: product.price, discountPrice: product.discountPrice || 0, stock: product.stock || 0 };
@@ -34,7 +28,6 @@ const ProductCard = ({ product }) => {
       setAdding(false);
     }
   };
-
   const handleWishlist = async (e) => {
     e.preventDefault();
     if (!user) return (window.location.href = "/login");
@@ -50,7 +43,6 @@ const ProductCard = ({ product }) => {
       /* noop */
     }
   };
-
   return (
     <Link to={`/product/${product.slug}`} className="card" style={styles.card}>
       <div style={styles.imgWrap}>
@@ -96,7 +88,6 @@ const ProductCard = ({ product }) => {
     </Link>
   );
 };
-
 const styles = {
   card: { display: "block", overflow: "hidden", position: "relative", transition: "transform 0.15s ease, box-shadow 0.15s ease" },
   imgWrap: { position: "relative", aspectRatio: "1 / 1", overflow: "hidden", background: "var(--ivory-deep)", borderRadius: "var(--radius-lg) var(--radius-lg) 0 0" },
@@ -111,5 +102,4 @@ const styles = {
   price: { fontWeight: 700, fontSize: "1.05rem", color: "var(--wood)" },
   mrp: { textDecoration: "line-through", color: "#B3A492", fontSize: "0.85rem", marginLeft: 8 },
 };
-
 export default ProductCard;

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
 const Register = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
@@ -10,9 +9,7 @@ const Register = () => {
   const [address, setAddress] = useState({ addressLine1: "", addressLine2: "", landmark: "", city: "", state: "", pincode: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
   const set = (obj, setObj) => (e) => setObj({ ...obj, [e.target.name]: e.target.value });
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -30,7 +27,6 @@ const Register = () => {
       setLoading(false);
     }
   };
-
   return (
     <div style={styles.wrap}>
       <div className="card" style={styles.box}>
@@ -54,11 +50,9 @@ const Register = () => {
             <label>Password</label>
             <input name="password" type="password" required minLength={6} value={form.password} onChange={set(form, setForm)} />
           </div>
-
           <button type="button" onClick={() => setShowAddress((v) => !v)} style={styles.toggleAddr}>
             {showAddress ? "− Hide address" : "+ Add delivery address now (optional)"}
           </button>
-
           {showAddress && (
             <div style={styles.addressBox}>
               <div className="field">
@@ -89,7 +83,6 @@ const Register = () => {
               </div>
             </div>
           )}
-
           <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
             {loading ? "Creating account…" : "Register"}
           </button>
@@ -101,12 +94,10 @@ const Register = () => {
     </div>
   );
 };
-
 const styles = {
   wrap: { display: "flex", justifyContent: "center", padding: "60px 20px" },
   box: { width: "100%", maxWidth: 460, padding: 34 },
   toggleAddr: { background: "none", border: "none", color: "var(--amber-deep)", fontWeight: 600, cursor: "pointer", padding: "6px 0 18px", fontSize: "0.9rem" },
   addressBox: { background: "var(--ivory)", padding: 16, borderRadius: 10, marginBottom: 18 },
 };
-
 export default Register;

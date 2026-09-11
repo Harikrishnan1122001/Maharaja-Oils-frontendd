@@ -3,9 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import AdminLayout from "../../components/admin/AdminLayout";
 import OrderStatusStepper from "../../components/OrderStatusStepper";
 import { adminApi, orderApi } from "../../api/endpoints";
-
 const STATUS_OPTIONS = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
-
 const AdminOrderDetail = () => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
@@ -13,7 +11,6 @@ const AdminOrderDetail = () => {
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const [downloadingInvoice, setDownloadingInvoice] = useState(false);
-
   useEffect(() => {
     adminApi
       .orderById(id)
@@ -21,7 +18,6 @@ const AdminOrderDetail = () => {
       .catch((err) => setError(err.response?.data?.message || "Failed to load order"))
       .finally(() => setLoading(false));
   }, [id]);
-
   const handleStatusChange = async (e) => {
     const orderStatus = e.target.value;
     setSaving(true);
@@ -34,7 +30,6 @@ const AdminOrderDetail = () => {
       setSaving(false);
     }
   };
-
   const handleDownloadInvoice = async () => {
     setDownloadingInvoice(true);
     setError("");
@@ -55,7 +50,6 @@ const AdminOrderDetail = () => {
       setDownloadingInvoice(false);
     }
   };
-
   if (loading) {
     return (
       <AdminLayout>
@@ -63,7 +57,6 @@ const AdminOrderDetail = () => {
       </AdminLayout>
     );
   }
-
   if (!order) {
     return (
       <AdminLayout>
@@ -74,7 +67,6 @@ const AdminOrderDetail = () => {
       </AdminLayout>
     );
   }
-
   return (
     <AdminLayout>
       <Link to="/admin/orders" style={styles.backLink}>← Back to Orders</Link>
@@ -100,13 +92,10 @@ const AdminOrderDetail = () => {
           </div>
         </div>
       </div>
-
       {error && <div className="form-error-banner">{error}</div>}
-
       <div className="card" style={{ marginTop: 4, marginBottom: 20 }} data-reveal="1">
         <OrderStatusStepper status={order.orderStatus} />
       </div>
-
       <div style={styles.layout}>
         <div className="card" style={styles.section} data-reveal="1">
           <h3 style={styles.sectionTitle}><span style={styles.sectionIcon}>🧴</span> Items ({order.orderItems.length})</h3>
@@ -129,7 +118,6 @@ const AdminOrderDetail = () => {
             <div style={styles.totalRow}><span>Total</span><span>₹{order.totalPrice}</span></div>
           </div>
         </div>
-
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="card" style={styles.section} data-reveal="2">
             <h3 style={styles.sectionTitle}><span style={styles.sectionIcon}>👤</span> Customer</h3>
@@ -143,7 +131,6 @@ const AdminOrderDetail = () => {
               {order.user?.phone}
             </p>
           </div>
-
           <div className="card" style={styles.section} data-reveal="2">
             <h3 style={styles.sectionTitle}><span style={styles.sectionIcon}>📍</span> Delivery Address</h3>
             <p style={{ margin: 0, lineHeight: 1.8 }}>
@@ -154,7 +141,6 @@ const AdminOrderDetail = () => {
               Phone: {order.shippingAddress.phone}
             </p>
           </div>
-
           <div className="card" style={styles.section} data-reveal="3">
             <h3 style={styles.sectionTitle}><span style={styles.sectionIcon}>💳</span> Payment</h3>
             <p style={{ margin: 0, fontSize: "0.9rem", lineHeight: 1.8 }}>
@@ -168,7 +154,6 @@ const AdminOrderDetail = () => {
     </AdminLayout>
   );
 };
-
 const styles = {
   backLink: { fontSize: "0.85rem", color: "var(--wood-soft)", fontWeight: 600 },
   headerRow: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12, marginTop: 8, marginBottom: 20 },
@@ -183,5 +168,4 @@ const styles = {
   totalRow: { display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: "1.02rem", color: "var(--wood)", paddingTop: 4 },
   statusSelect: { padding: "9px 12px", borderRadius: 8, border: "1px solid var(--line)", fontWeight: 600 },
 };
-
 export default AdminOrderDetail;

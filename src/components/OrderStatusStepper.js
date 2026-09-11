@@ -1,14 +1,7 @@
 const STEPS = ["Pending", "Processing", "Shipped", "Delivered"];
-
-/**
- * Purely presentational horizontal progress stepper for an order's
- * lifecycle. Read-only — it doesn't change orderStatus itself, it just
- * visualizes whatever status the order is already in.
- */
 const OrderStatusStepper = ({ status }) => {
   const isCancelled = status === "Cancelled";
   const activeIndex = STEPS.indexOf(status);
-
   return (
     <div style={styles.wrap} data-reveal="1">
       {isCancelled ? (
@@ -40,7 +33,6 @@ const OrderStatusStepper = ({ status }) => {
     </div>
   );
 };
-
 const styles = {
   wrap: { padding: "20px 22px" },
   steps: { display: "flex", alignItems: "flex-start" },
@@ -62,5 +54,4 @@ const styles = {
   },
   cancelledDot: { width: 8, height: 8, borderRadius: "50%", background: "var(--clay)", display: "inline-block", flexShrink: 0 },
 };
-
 export default OrderStatusStepper;

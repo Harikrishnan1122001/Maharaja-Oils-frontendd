@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "../../components/admin/AdminLayout";
 import { adminApi, settingsApi } from "../../api/endpoints";
-
-// Admin page for the rolling ticker shown directly below the hero banner
-// on the storefront. Lets admins add, edit, reorder, and remove ticker
-// items, toggle it on/off, and tune the scroll speed — all without
-// touching code. Saves to Settings ➜ marquee, which the public Marquee
-// component (rendered on the Home page, just under the hero banner)
-// reads from.
 const AdminMarquee = () => {
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState("");
@@ -17,7 +10,6 @@ const AdminMarquee = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
   const load = () => {
     setLoading(true);
     settingsApi
@@ -35,19 +27,15 @@ const AdminMarquee = () => {
       .catch((err) => setError(err.response?.data?.message || "Failed to load marquee settings"))
       .finally(() => setLoading(false));
   };
-
   useEffect(() => {
     load();
   }, []);
-
   const updateItem = (index, value) => {
     setItems((prev) => prev.map((it, i) => (i === index ? value : it)));
   };
-
   const removeItem = (index) => {
     setItems((prev) => prev.filter((_, i) => i !== index));
   };
-
   const moveItem = (index, dir) => {
     setItems((prev) => {
       const next = [...prev];
@@ -57,25 +45,21 @@ const AdminMarquee = () => {
       return next;
     });
   };
-
   const addItem = () => {
     const text = newItem.trim();
     if (!text) return;
     setItems((prev) => [...prev, text]);
     setNewItem("");
   };
-
   const handleSave = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
-
     const cleaned = items.map((t) => t.trim()).filter(Boolean);
     if (cleaned.length === 0) {
       setError("Add at least one marquee text before saving.");
       return;
     }
-
     setSaving(true);
     try {
       const res = await adminApi.updateMarquee({ items: cleaned, enabled, speed: Number(speed) || 28 });
@@ -92,10 +76,8 @@ const AdminMarquee = () => {
       setSaving(false);
     }
   };
-
   const previewItems = items.map((t) => t.trim()).filter(Boolean);
   const previewTrack = previewItems.length ? [...previewItems, ...previewItems] : [];
-
   return (
     <AdminLayout>
       <p className="eyebrow">Storefront</p>
@@ -105,7 +87,6 @@ const AdminMarquee = () => {
         (e.g. "100% Natural", "No Chemicals", "Transparent Sourcing"). Add, edit, reorder,
         or remove items — changes go live as soon as you save.
       </p>
-
       {loading ? (
         <div className="skeleton" style={{ height: 260, borderRadius: 16 }} />
       ) : (
@@ -114,7 +95,6 @@ const AdminMarquee = () => {
             <h3 style={{ marginBottom: 16 }}>Marquee Settings</h3>
             {error && <div className="form-error-banner">{error}</div>}
             {success && <div className="form-success-banner">{success}</div>}
-
             <div className="field" style={styles.toggleRow}>
               <label style={{ marginBottom: 0 }}>Show marquee on website</label>
               <input
@@ -124,7 +104,6 @@ const AdminMarquee = () => {
                 style={{ width: 18, height: 18 }}
               />
             </div>
-
             <div className="field">
               <label>Scroll Speed (seconds per loop)</label>
               <input
@@ -138,7 +117,6 @@ const AdminMarquee = () => {
                 Lower = faster scroll. Try 20–35 for a smooth, readable pace.
               </p>
             </div>
-
             <div className="field">
               <label>Add New Text</label>
               <div style={{ display: "flex", gap: 8 }}>
@@ -160,22 +138,18 @@ const AdminMarquee = () => {
                 </button>
               </div>
             </div>
-
             <button type="submit" className="btn btn-primary btn-block" disabled={saving} style={{ marginTop: 10 }}>
               {saving ? "Saving…" : "Save Changes"}
             </button>
           </form>
-
           <div className="admin-list-wrap" style={styles.listWrap}>
             <h3 style={{ marginBottom: 16 }}>Marquee Items ({items.length})</h3>
-
             {items.length === 0 && (
               <div className="empty-state card">
                 <h3>No marquee text yet</h3>
                 <p>Add your first line using the form.</p>
               </div>
             )}
-
             <div style={styles.itemsList}>
               {items.map((text, i) => (
                 <div key={i} className="card" style={styles.itemRow}>
@@ -218,7 +192,6 @@ const AdminMarquee = () => {
                 </div>
               ))}
             </div>
-
             {previewTrack.length > 0 && enabled && (
               <>
                 <h3 style={{ margin: "26px 0 12px" }}>Live Preview</h3>
@@ -247,7 +220,6 @@ const AdminMarquee = () => {
     </AdminLayout>
   );
 };
-
 const styles = {
   layout: { display: "grid", gridTemplateColumns: "380px 1fr", gap: 28, alignItems: "start" },
   formCard: { padding: 26, position: "sticky", top: 20 },
@@ -263,5 +235,4 @@ const styles = {
   itemInput: { flex: 1, minWidth: 0 },
   itemActions: { display: "flex", gap: 6, flexShrink: 0 },
 };
-
 export default AdminMarquee;

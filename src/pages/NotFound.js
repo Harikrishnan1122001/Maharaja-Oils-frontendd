@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-
 const NotFound = () => (
   <div className="empty-state">
     <h3>Page not found</h3>
@@ -7,5 +6,4 @@ const NotFound = () => (
     <Link to="/" className="btn btn-primary">Back Home</Link>
   </div>
 );
-
 export default NotFound;

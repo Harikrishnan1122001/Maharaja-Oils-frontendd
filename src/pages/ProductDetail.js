@@ -3,12 +3,10 @@ import { useParams, Link } from "react-router-dom";
 import { productApi, wishlistApi } from "../api/endpoints";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
-
 const ProductDetail = () => {
   const { slug } = useParams();
   const { user } = useAuth();
   const { addItem } = useCart();
-
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeImg, setActiveImg] = useState(0);
@@ -17,14 +15,7 @@ const ProductDetail = () => {
   const [message, setMessage] = useState("");
   const [adding, setAdding] = useState(false);
   const [wished, setWished] = useState(false);
-
   const hasVariants = (product?.variants?.length || 0) > 0;
-
-  // Some products are sold using size-based variants (500ml/1L/5L, each
-  // with its own price/stock); others use the product's own base price
-  // and stock directly (no variants at all — this is a valid, supported
-  // product shape on the backend). Fall back to the base fields so price,
-  // stock, and Add to Cart still render correctly for those products.
   const activeSelection = hasVariants
     ? selectedVariant
     : product
@@ -36,7 +27,6 @@ const ProductDetail = () => {
         stock: product.stock || 0,
       }
     : null;
-
   useEffect(() => {
     setLoading(true);
     setMessage("");
@@ -50,7 +40,6 @@ const ProductDetail = () => {
       .catch(() => setProduct(null))
       .finally(() => setLoading(false));
   }, [slug]);
-
   const handleAddToCart = async () => {
     if (!user) return (window.location.href = "/login");
     if (!activeSelection) return;
@@ -65,7 +54,6 @@ const ProductDetail = () => {
       setAdding(false);
     }
   };
-
   const handleWishlist = async () => {
     if (!user) return (window.location.href = "/login");
     if (wished) {
@@ -76,16 +64,13 @@ const ProductDetail = () => {
       setWished(true);
     }
   };
-
   if (loading) return <div style={{ padding: 80, textAlign: "center" }}>Loading…</div>;
   if (!product) return <div className="empty-state"><h3>Product not found</h3><Link to="/shop" className="btn btn-outline">Back to Shop</Link></div>;
-
   return (
     <div className="container" style={{ padding: "40px 20px 76px" }}>
       <div style={styles.breadcrumb}>
         <Link to="/">Home</Link> <span style={styles.crumbSep}>/</span> <Link to="/shop">Shop</Link> <span style={styles.crumbSep}>/</span> <span style={{ color: "var(--wood)", fontWeight: 600 }}>{product.name}</span>
       </div>
-
       <div style={styles.grid}>
         <div data-reveal="1">
           <div style={styles.mainImgWrap} className="card">
@@ -105,12 +90,10 @@ const ProductDetail = () => {
             </div>
           )}
         </div>
-
         <div data-reveal="2">
           {product.tags?.includes("New") && <span className="badge badge-new" style={{ marginBottom: 12, display: "inline-block" }}>New</span>}
           <h1 style={{ marginBottom: 10 }}>{product.name}</h1>
           <p style={styles.description}>{product.description}</p>
-
           {activeSelection && (
             <div style={styles.priceRow}>
               <span style={styles.price}>
@@ -126,9 +109,7 @@ const ProductDetail = () => {
               )}
             </div>
           )}
-
           <div className="drip-divider" style={{ margin: "22px 0" }} />
-
           {hasVariants && (
             <div className="field">
               <label>Pack Size</label>
@@ -146,7 +127,6 @@ const ProductDetail = () => {
               </div>
             </div>
           )}
-
           <div className="field" style={{ maxWidth: 140 }}>
             <label>Quantity</label>
             <div style={styles.qtyRow}>
@@ -155,9 +135,7 @@ const ProductDetail = () => {
               <button onClick={() => setQty((q) => Math.min(activeSelection?.stock || 1, q + 1))} className="btn-icon">+</button>
             </div>
           </div>
-
           {message && <div className={message.includes("Added") ? "form-success-banner" : "form-error-banner"}>{message}</div>}
-
           <div style={{ display: "flex", gap: 12, marginTop: 10 }}>
             <button
               onClick={handleAddToCart}
@@ -170,7 +148,6 @@ const ProductDetail = () => {
               {wished ? "♥" : "♡"}
             </button>
           </div>
-
           <div style={styles.metaBox} className="card">
             <div style={styles.metaRow}>
               <span style={styles.metaLabel}>Category</span>
@@ -192,7 +169,6 @@ const ProductDetail = () => {
     </div>
   );
 };
-
 const styles = {
   breadcrumb: { fontSize: "0.85rem", color: "var(--wood-soft)", marginBottom: 26 },
   crumbSep: { color: "var(--line)", margin: "0 2px" },
@@ -213,5 +189,4 @@ const styles = {
   metaLabel: { color: "var(--wood-soft)", fontWeight: 600 },
   metaValue: { color: "var(--wood)", textAlign: "right" },
 };
-
 export default ProductDetail;

@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-
 const Footer = () => {
   const [open, setOpen] = useState({ links: false, products: false, care: false, contact: false });
   const toggle = (key) => setOpen((o) => ({ ...o, [key]: !o[key] }));
-
   const FooterCol = ({ id, title, children }) => (
     <div className="footer-col">
       <button
@@ -19,7 +17,6 @@ const Footer = () => {
       <div className={`footer-col-body${open[id] ? " is-open" : ""}`}>{children}</div>
     </div>
   );
-
   return (
     <footer style={styles.footer}>
       <div className="container footer-grid" style={styles.grid}>
@@ -40,28 +37,24 @@ const Footer = () => {
             <span style={styles.socialIcon}>▶</span>
           </div>
         </div>
-
         <FooterCol id="links" title="Quick Links">
           <Link style={styles.link} to="/">Home</Link>
           <Link style={styles.link} to="/about">About Us</Link>
           <Link style={styles.link} to="/shop">Our Products</Link>
           <Link style={styles.link} to="/contact">Contact Us</Link>
         </FooterCol>
-
         <FooterCol id="products" title="Our Products">
           <Link style={styles.link} to="/category/gingelly-oil">Gingelly Oil</Link>
           <Link style={styles.link} to="/category/groundnut-oil">Groundnut Oil</Link>
           <Link style={styles.link} to="/category/coconut-oil">Coconut Oil</Link>
           <Link style={styles.link} to="/category/idly-podi-health-mix">Idly Podi &amp; Health Mix</Link>
         </FooterCol>
-
         <FooterCol id="care" title="Customer Care">
           <Link style={styles.link} to="/account/orders">Shipping &amp; Refunds</Link>
           <Link style={styles.link} to="/account/orders">Returns &amp; Refunds</Link>
           <Link style={styles.link} to="/contact">Terms &amp; Conditions</Link>
           <Link style={styles.link} to="/contact">Privacy Policy</Link>
         </FooterCol>
-
         <FooterCol id="contact" title="Contact Us">
           <p style={{ color: "var(--ivory-deep)", marginBottom: 6, fontSize: "0.9rem" }}>Sangam Thidal, Near Ayyanar Kovil, Karaikudi - 630003</p>
           <p style={{ color: "var(--ivory-deep)", marginBottom: 6, fontSize: "0.9rem" }}>+91 73733 22866</p>
@@ -72,7 +65,6 @@ const Footer = () => {
     </footer>
   );
 };
-
 const styles = {
   footer: { background: "var(--wood)", color: "var(--ivory)", marginTop: 60, paddingTop: 50 },
   grid: { display: "grid", gridTemplateColumns: "1.6fr 1fr 1fr 1fr 1.2fr", gap: 32, paddingBottom: 30 },
@@ -87,5 +79,4 @@ const styles = {
   link: { display: "block", color: "var(--ivory-deep)", marginBottom: 9, fontSize: "0.88rem" },
   bottom: { borderTop: "1px solid rgba(255,255,255,0.12)", textAlign: "center", padding: "18px 20px", fontSize: "0.8rem", color: "var(--ivory-deep)", background: "var(--maroon-dark)" },
 };
-
 export default Footer;

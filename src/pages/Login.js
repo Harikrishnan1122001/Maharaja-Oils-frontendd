@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -9,7 +8,6 @@ const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -25,7 +23,6 @@ const Login = () => {
       setLoading(false);
     }
   };
-
   return (
     <div style={styles.wrap}>
       <div className="card" style={styles.box}>
@@ -52,10 +49,8 @@ const Login = () => {
     </div>
   );
 };
-
 const styles = {
   wrap: { display: "flex", justifyContent: "center", padding: "60px 20px" },
   box: { width: "100%", maxWidth: 420, padding: 34 },
 };
-
 export default Login;

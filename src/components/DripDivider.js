@@ -1,5 +1,3 @@
-// Signature element: a trail of oil drops used as a section divider
-// throughout the site instead of a generic hairline rule.
 const DripDivider = () => (
   <div className="drip-divider" aria-hidden="true">
     <svg width="60" height="14" viewBox="0 0 60 14" fill="none">
@@ -10,5 +8,4 @@ const DripDivider = () => (
     </svg>
   </div>
 );
-
 export default DripDivider;

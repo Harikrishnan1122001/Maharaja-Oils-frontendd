@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { addressApi } from "../api/endpoints";
 import { useAuth } from "../context/AuthContext";
-
 const emptyForm = { label: "Home", fullName: "", phone: "", addressLine1: "", addressLine2: "", landmark: "", city: "", state: "", pincode: "" };
-
 const Addresses = () => {
   const { user } = useAuth();
   const [addresses, setAddresses] = useState([]);
@@ -13,17 +11,14 @@ const Addresses = () => {
   const [form, setForm] = useState(emptyForm);
   const [error, setError] = useState("");
   const [busyId, setBusyId] = useState(null);
-
   const load = () => addressApi.list().then((res) => setAddresses(res.data.addresses));
   useEffect(() => { load(); }, []);
-
   const openNew = () => {
     setForm({ ...emptyForm, fullName: user?.name || "", phone: user?.phone || "" });
     setEditingId(null);
     setShowForm(true);
   };
   const openEdit = (a) => { setForm(a); setEditingId(a._id); setShowForm(true); };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -36,12 +31,10 @@ const Addresses = () => {
       setError(err.response?.data?.message || "Could not save address");
     }
   };
-
   const handleDelete = async (id) => {
     await addressApi.remove(id);
     load();
   };
-
   const handleSetDefault = async (id) => {
     setBusyId(id);
     try {
@@ -51,7 +44,6 @@ const Addresses = () => {
       setBusyId(null);
     }
   };
-
   return (
     <div className="container" style={{ padding: "40px 20px 70px", maxWidth: 720 }}>
       <h1>My Account</h1>
@@ -60,7 +52,6 @@ const Addresses = () => {
         <Link to="/account/orders" className="btn btn-outline btn-sm">Orders</Link>
         <Link to="/account/addresses" className="btn btn-primary btn-sm">Addresses</Link>
       </div>
-
       <div style={{ marginTop: 20 }}>
         {addresses.map((a) => (
           <div key={a._id} className="card" style={styles.addrCard}>
@@ -83,9 +74,7 @@ const Addresses = () => {
             </div>
           </div>
         ))}
-
         {!showForm && <button className="btn btn-primary btn-sm" onClick={openNew}>+ Add New Address</button>}
-
         {showForm && (
           <form onSubmit={handleSubmit} className="card" style={{ padding: 20, marginTop: 14 }}>
             {error && <div className="form-error-banner">{error}</div>}
@@ -110,10 +99,8 @@ const Addresses = () => {
     </div>
   );
 };
-
 const styles = {
   nav: { display: "flex", gap: 10, marginTop: 10 },
   addrCard: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", padding: 18, marginBottom: 14, flexWrap: "wrap", gap: 10 },
 };
-
 export default Addresses;

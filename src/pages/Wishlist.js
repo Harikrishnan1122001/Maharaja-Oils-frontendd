@@ -2,17 +2,13 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { wishlistApi } from "../api/endpoints";
 import ProductCard from "../components/ProductCard";
-
 const Wishlist = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     wishlistApi.get().then((res) => setItems(res.data.wishlist?.products || [])).finally(() => setLoading(false));
   }, []);
-
   if (loading) return <div style={{ padding: 80, textAlign: "center" }}>Loading…</div>;
-
   if (items.length === 0) {
     return (
       <div className="empty-state">
@@ -22,7 +18,6 @@ const Wishlist = () => {
       </div>
     );
   }
-
   return (
     <div className="container" style={{ padding: "40px 20px 70px" }}>
       <h1>Your Wishlist</h1>
@@ -32,5 +27,4 @@ const Wishlist = () => {
     </div>
   );
 };
-
 export default Wishlist;

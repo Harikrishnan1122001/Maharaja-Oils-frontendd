@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
 import { orderApi } from "../api/endpoints";
 import OrderStatusStepper from "../components/OrderStatusStepper";
-
 const OrderDetail = () => {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
@@ -11,11 +10,9 @@ const OrderDetail = () => {
   const [cancelling, setCancelling] = useState(false);
   const [downloadingInvoice, setDownloadingInvoice] = useState(false);
   const [error, setError] = useState("");
-
   useEffect(() => {
     orderApi.byId(id).then((res) => setOrder(res.data.order)).finally(() => setLoading(false));
   }, [id]);
-
   const handleCancel = async () => {
     if (!window.confirm("Cancel this order?")) return;
     setCancelling(true);
@@ -29,9 +26,7 @@ const OrderDetail = () => {
       setCancelling(false);
     }
   };
-
   const canCancel = order && !["Shipped", "Delivered", "Cancelled"].includes(order.orderStatus);
-
   const handleDownloadInvoice = async () => {
     setDownloadingInvoice(true);
     setError("");
@@ -52,18 +47,14 @@ const OrderDetail = () => {
       setDownloadingInvoice(false);
     }
   };
-
   if (loading) return <div style={{ padding: 80, textAlign: "center" }}>Loading…</div>;
   if (!order) return <div className="empty-state"><h3>Order not found</h3></div>;
-
   return (
     <div className="container" style={{ padding: "40px 20px 76px", maxWidth: 760 }}>
       {searchParams.get("success") && (
         <div className="form-success-banner">🎉 Your order was placed successfully! A confirmation email is on its way.</div>
       )}
-
       <Link to="/account/orders" style={styles.backLink}>← Back to Orders</Link>
-
       <div style={styles.headerRow}>
         <div>
           <p className="eyebrow" style={{ marginBottom: 6 }}>Order Details</p>
@@ -81,13 +72,10 @@ const OrderDetail = () => {
           )}
         </div>
       </div>
-
       {error && <div className="form-error-banner">{error}</div>}
-
       <div className="card" style={{ marginTop: 18 }} data-reveal="1">
         <OrderStatusStepper status={order.orderStatus} />
       </div>
-
       <div className="card" style={styles.section} data-reveal="1">
         <h3 style={styles.sectionTitle}><span style={styles.sectionIcon}>🧴</span> Items</h3>
         {order.orderItems.map((item, i) => (
@@ -109,7 +97,6 @@ const OrderDetail = () => {
           <div style={styles.totalRow}><span>Total</span><span>₹{order.totalPrice}</span></div>
         </div>
       </div>
-
       <div style={styles.twoCol} className="split-grid">
         <div className="card" style={styles.section} data-reveal="2">
           <h3 style={styles.sectionTitle}><span style={styles.sectionIcon}>📍</span> Delivery Address</h3>
@@ -121,7 +108,6 @@ const OrderDetail = () => {
             Phone: {order.shippingAddress.phone}
           </p>
         </div>
-
         <div className="card" style={styles.section} data-reveal="3">
           <h3 style={styles.sectionTitle}><span style={styles.sectionIcon}>💳</span> Payment</h3>
           <p style={{ margin: 0, fontSize: "0.9rem", lineHeight: 1.9 }}>
@@ -133,7 +119,6 @@ const OrderDetail = () => {
     </div>
   );
 };
-
 const styles = {
   backLink: { fontSize: "0.85rem", color: "var(--wood-soft)", fontWeight: 600 },
   headerRow: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 14, marginTop: 12 },
@@ -149,5 +134,4 @@ const styles = {
   totalRow: { display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: "1.02rem", color: "var(--wood)", paddingTop: 4 },
   twoCol: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 0 },
 };
-
 export default OrderDetail;

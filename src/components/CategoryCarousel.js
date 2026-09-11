@@ -1,23 +1,15 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-
-// Carousel slider for browsing ALL product categories (replaces the old
-// "first 4/5 categories only" static grid on the Home page). Clicking or
-// tapping a slide is the category-selection action: it routes the user to
-// /category/:slug, which renders the Shop page pre-filtered to that
-// category (see App.js route + Shop.js).
 const CategoryCarousel = ({ categories = [], loading = false }) => {
   const trackRef = useRef(null);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
-
   const updateArrows = useCallback(() => {
     const el = trackRef.current;
     if (!el) return;
     setCanScrollPrev(el.scrollLeft > 4);
     setCanScrollNext(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
   }, []);
-
   useEffect(() => {
     updateArrows();
     const el = trackRef.current;
@@ -29,7 +21,6 @@ const CategoryCarousel = ({ categories = [], loading = false }) => {
       window.removeEventListener("resize", updateArrows);
     };
   }, [updateArrows, categories.length, loading]);
-
   const scrollByCard = (dir) => {
     const el = trackRef.current;
     if (!el) return;
@@ -37,9 +28,7 @@ const CategoryCarousel = ({ categories = [], loading = false }) => {
     const step = card ? card.offsetWidth + 22 : 260;
     el.scrollBy({ left: dir * step * 2, behavior: "smooth" });
   };
-
   const items = loading ? Array.from({ length: 5 }) : categories;
-
   return (
     <div style={styles.wrap} className="category-carousel-wrap">
       {!loading && canScrollPrev && (
@@ -53,7 +42,6 @@ const CategoryCarousel = ({ categories = [], loading = false }) => {
           ‹
         </button>
       )}
-
       <div ref={trackRef} style={styles.track} className="category-carousel-track">
         {items.map((c, i) =>
           c ? (
@@ -77,7 +65,6 @@ const CategoryCarousel = ({ categories = [], loading = false }) => {
           )
         )}
       </div>
-
       {!loading && canScrollNext && (
         <button
           type="button"
@@ -89,7 +76,6 @@ const CategoryCarousel = ({ categories = [], loading = false }) => {
           ›
         </button>
       )}
-
       {!loading && items.length > 1 && (
         <div className="category-carousel-hint" aria-hidden="true">
           <span />
@@ -100,7 +86,6 @@ const CategoryCarousel = ({ categories = [], loading = false }) => {
     </div>
   );
 };
-
 const styles = {
   wrap: { position: "relative", marginTop: 24 },
   track: {
@@ -144,5 +129,4 @@ const styles = {
     zIndex: 5,
   },
 };
-
 export default CategoryCarousel;
