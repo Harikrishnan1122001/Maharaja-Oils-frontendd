@@ -6,7 +6,6 @@ import Footer from "./components/Footer";
 import ScrollReveal from "./components/ScrollReveal";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
-
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
